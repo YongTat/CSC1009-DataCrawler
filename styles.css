@@ -1,0 +1,562 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Kumbh Sans', sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  body{
+    background-color: rgb(241, 238, 238);
+  }
+  .title{
+    text-align: center;
+    padding-bottom: 50px;
+    padding-top: 50px;
+  }
+
+  .title::before
+{
+  content:'';
+  background: #7B1798;
+  height: 5px;
+  width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  transform:translateY(63px);
+}
+  
+  .navbar {
+    background: #131313;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+  }
+  
+  .navbar__container {
+    display: flex;
+    justify-content: space-between;
+    height: 80px;
+    z-index: 1;
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 50px;
+  }
+  
+  #navbar__logo {
+    background-color: #ff8177;
+    background-image: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
+    background-size: 100%;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 2rem;
+  }
+  
+  .navbar__menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+  }
+  
+  .navbar__item {
+    height: 80px;
+  }
+  
+  .navbar__links {
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 125px;
+    text-decoration: none;
+    height: 100%;
+    transition: all 0.3s ease;
+  }
+  
+   
+  .navbar__links:hover {
+    color: #9518fc;
+    transition: all 0.3s ease;
+  }
+
+  /* For Search Bar + BUTTON */
+
+.navbar .navbar__search {
+  float: right;
+}
+
+.navbar input[type=text] {
+  padding: 6px;
+  margin-top: 8px;
+  font-size: 17px;
+  border: none;
+}
+
+.navbar .navbar__search button {
+  float: right;
+  padding: 6px 10px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.navbar .navbar__search button:hover {
+  background: #ccc;
+}
+
+  @media screen and (max-width: 600px) {
+    .navbar .navbar__search {
+      float: none;
+    }
+    .navbar a, .topnav input[type=text], .navbar .navbar__search button {
+      float: none;
+      display: block;
+      text-align: left;
+      width: 100%;
+      margin: 0;
+      padding: 14px;
+    }
+    .topnav input[type=text] {
+      border: 1px solid rgb(190, 10, 10);  
+    }
+  }
+
+
+/* Table CSS */
+
+.stock_container{
+  /* padding-top: 2rem; */
+  
+}
+
+.stock_table {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin:0;
+  padding: 0;
+  width: 1200px;
+  table-layout: auto;
+  margin-left:auto;
+  margin-right:auto;
+
+
+}
+
+/* table caption {
+  font-size: 2em;
+  font-weight: 700;
+  margin: .5em 0 .75em;
+
+} */
+
+
+.stock_row {
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  padding: .35em;
+
+}
+.stock_row:hover{
+  background-color: #ccddf5;
+}
+
+.stock_header, .stock_data {
+  padding: .625em;
+  text-align: center;
+}
+
+.stock_header {
+  font-size: 20;
+  letter-spacing: .1me;
+  text-transform: uppercase;
+}
+
+@media screen and (max-width: 600px) {
+
+  .stock_table {
+    border: 0;
+  }
+
+  /* table caption {
+    font-size: 1.3em;
+  } */
+  
+  .stock_head {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+    
+  .stock_row {
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: .625em;
+  }
+  
+  .stock_data {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: .8em;
+    text-align: right;
+  }
+  
+  .table_data::before {
+
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .table_data:last-child {
+    border-bottom: 0;
+  }
+}
+
+/* Card  */
+.card_container{
+  padding-top:50px;
+  margin-left:auto;
+  margin-right:auto;
+  width:1000px;
+
+}
+
+.column {
+  float: left;
+  width: 20%;
+  padding: 10px;
+}
+
+/* Remove extra left and right margins, due to padding */
+.row {
+  margin: 0 -5px;
+  padding-top:30px;
+  padding-bottom: 30px;
+}
+
+.row_container{
+  width: 50%;
+  margin: auto;
+  padding-top:15px;
+  padding-bottom: 15px;
+  text-align: center;
+  
+  
+}
+/* Clear floats after the columns */
+.row_container:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive columns */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+/* Style the counter cards */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+}
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+
+/* data.html */
+
+/* Redirect Menu for Twitter and Reddit */
+
+.menu_list {
+  width: 500px;
+  padding-bottom:20px;
+  overflow: auto;
+  list-style: none;
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  margin-left:auto;
+  margin-right:auto;
+
+}
+
+.menu_item {
+  font-family: Open Sans, sans-serif;
+  font-size: 15px;
+  font-weight:300;
+  float: left;
+  padding-right: 20px;
+  padding-left: 20px;
+  border-right: 1px solid #999;
+}
+
+.menu_item:last-child {
+  border: none;
+
+}
+
+.menu_item a {
+  display: block;
+  color: rgb(36, 156, 255);
+  text-align: center;
+  padding: 8px;
+  text-decoration: none;
+}
+
+.menu_item.active a{
+  color: #F15A24;
+  font-weight: normal;
+}
+
+@media screen and (max-width: 600px) {
+  .menu_item {
+    display: flex;
+    justify-content: flex-start;
+  }
+}
+
+/* Historical Data Table */
+
+.data_container{
+  padding-top: 2rem;
+  
+}
+.data_table {
+  border: 0px solid #ccc;
+  border-collapse: collapse;
+  margin:0;
+  padding: 0;
+  width: 1200px;
+  table-layout: auto;
+  margin-left:auto;
+  margin-right:auto;
+
+}
+
+/* table caption {
+  font-size: 2em;
+  font-weight: 700;
+  margin: .5em 0 .75em;
+
+} */
+
+
+.data_row {
+  background-color: #f8f8f8;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  padding: .35em;
+
+}
+/* .data_row:hover{
+  background-color: #ccddf5;
+} */
+
+.data_header, .d_data {
+  padding: .625em;
+  text-align: center;
+  
+}
+
+.data_header {
+  font-size: 20;
+  letter-spacing: .1me;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 600px) {
+
+  .data_table {
+    border: 0;
+  }
+
+  /* table caption {
+    font-size: 1.3em;
+  } */
+  
+  .data_head {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+    
+  .data_row {
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: .625em;
+  }
+  
+  .data_data {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: .8em;
+    text-align: right;
+  }
+  
+  .table_data::before {
+    /*
+    * aria-label has no advantage, it won't be read inside a table
+    content: attr(aria-label);
+    */
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .table_data:last-child {
+    border-bottom: 0;
+  }
+}
+
+/* Reddit.html */
+
+/* .container {
+	margin:0 auto;
+	width:800px;
+}
+
+.tw-icon {
+	margin:0 auto;
+} */
+
+
+
+
+/* Twitter.html */
+.tweetEntry-tweetHolder {
+  border-left: 1px solid #e1e8ed;
+  border-right: 1px solid #e1e8ed;
+  border-top: 1px solid #e1e8ed;
+  width: 588px;
+  margin: auto;
+  border-radius: 5px;
+}
+
+/* The action list is optional. */
+.tweetEntry-action-list {
+  display: block;
+  line-height: 18px;
+  margin-left: 58px;
+  margin-top: 10px;
+  color: #292f33;
+}
+.fa-reply:hover {
+  color: #292f33;
+}
+.fa-retweet:hover {
+  color: #5cd65c;
+}
+.fa-heart:hover {
+  color: #ff3333;
+}
+/************************/
+
+.tweet_container{
+  border: 0px solid #ccc;
+  border-collapse: collapse;
+  margin:0;
+  padding: 0;
+  width: 1200px;
+  margin-left:auto;
+  margin-right:auto;
+
+
+}
+.tweetEntry {
+  border-bottom: 1px solid #e1e8ed;
+  cursor: pointer;
+  min-height: 51px;
+  padding: 9px 12px;
+  border-left: 2px solid black;
+}
+.tweetEntry-content {
+  display: block;
+  font-size: 14px;
+  margin-left: 58px;
+  font-size: 14px;
+}
+.tweetEntry-account-group {
+  color: #8899a6;
+  padding: 0px;
+  text-decoration: none;
+  line-height: 20px;
+}
+
+.tweetEntry-fullname {
+  font-weight: bold;
+  font-size: 14px;
+  color: #292f33;
+  padding: 0px;
+}
+.tweetEntry-username {
+  font-weight: bold;
+  font-size: 14px;
+  color: #b1bbc3;
+  padding: 0px;
+}
+.tweetEntry-timestamp {
+  font-size: 14px;
+  color: #b1bbc3;
+  padding: 0px;
+}
+.tweetEntry-text-container {
+  max-width: 1000px;
+  font-size: 14px;
+  color: #292f33;
+  line-height: 18px;
+}
+
+.optionalMedia {
+  margin-left: 58px;
+  margin-top: 10px;
+}
+.optionalMedia-img {
+  border-radius: 5px;
+  max-width: 506px;
+  max-height: 506px;
+  
+}

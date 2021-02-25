@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" />
+  <title>Stock Sources</title>
+</head>
+
+<body>
+  <!-- Navbar Section -->
+  <div id="nav-placeholder"></div>
+
+  <!-- Display Historical Data -->
+
+  <div class="data_container">
+    <h1 class="title">Historical Data for GME</h1>
+    <!-- Nagivation for Historical Data, Twitter, Reddit -->
+    <div class="menu_container">
+      <ul class="menu_list">
+        <li class="menu_item"><a href="#">Reddit</a></li>
+        <li class="menu_item"><a href="#news">Twitter</a></li>
+      </ul>
+    </div>
+    <!-- Data Table -->
+    <!-- <table class="data_table">
+          <thead class="data_head">
+              <th class = "data_header" scope="col">Date</th>
+              <th class = "data_header" scope="col">Open</th>
+              <th class = "data_header" scope="col">Close</th>
+              <th class = "data_header" scope="col">High</th>
+              <th class = "data_header" scope="col">Low</th>
+              <th class = "data_header" scope="col">Volume</th>
+          </thead>
+          <tbody class="data_body">
+            <tr class="data_row">
+              <td class="d_data">04/01/2016</td>
+              <td class="d_data">3,918.50</td>
+              <td class="d_data">1,190.44</td>
+              <td class="d_data">1,1822.44</td>
+              <td class="d_data">990.55</td>
+              <td class="d_data">15150510</td>
+            </tr>
+            <tr class="data_row">
+              <td class="d_data"data-label="Date">04/01/2016</td>
+              <td class="d_data"data-label="Open($)">3,918.50</td>
+              <td class="d_data"data-label="Close($)">1,190.44</td>
+              <td class="d_data"data-label="High">1,1822.44</td>
+              <td class="d_data"data-label="Low">990.55</td>
+              <td class="d_data"data-label="Volume">15150510</td>
+            </tr>
+            <tr class="data_row">
+              <td class="d_data"data-label="Date">04/01/2016</td>
+              <td class="d_data"data-label="Open($)">3,918.50</td>
+              <td class="d_data"data-label="Close($)">1,190.44</td>
+              <td class="d_data"data-label="High">1,1822.44</td>
+              <td class="d_data"data-label="Low">990.55</td>
+              <td class="d_data"data-label="Volume">15150510</td>
+            </tr>
+            <tr class="data_row">
+              <td class="d_data"data-label="Date">04/01/2016</td>
+              <td class="d_data"data-label="Open($)">3,918.50</td>
+              <td class="d_data"data-label="Close($)">1,190.44</td>
+              <td class="d_data"data-label="High">1,1822.44</td>
+              <td class="d_data"data-label="Low">990.55</td>
+              <td class="d_data"data-label="Volume">15150510</td>
+            </tr>
+            <tr class="data_row">
+              <td class="d_data"data-label="Date">04/01/2016</td>
+              <td class="d_data"data-label="Open($)">3,918.50</td>
+              <td class="d_data"data-label="Close($)">1,190.44</td>
+              <td class="d_data"data-label="High">1,1822.44</td>
+              <td class="d_data"data-label="Low">990.55</td>
+              <td class="d_data"data-label="Volume">15150510</td>
+            </tr>
+            <tr class="data_row">
+              <td class="d_data"data-label="Date">04/01/2016</td>
+              <td class="d_data"data-label="Open($)">3,918.50</td>
+              <td class="d_data"data-label="Close($)">1,190.44</td>
+              <td class="d_data"data-label="High">1,1822.44</td>
+              <td class="d_data"data-label="Low">990.55</td>
+              <td class="d_data"data-label="Volume">15150510</td>
+            </tr>
+            <tr class="data_row">
+              <td class="d_data"data-label="Date">04/01/2016</td>
+              <td class="d_data"data-label="Open($)">3,918.50</td>
+              <td class="d_data"data-label="Close($)">1,190.44</td>
+              <td class="d_data"data-label="High">1,1822.44</td>
+              <td class="d_data"data-label="Low">990.55</td>
+              <td class="d_data"data-label="Volume">15150510</td>
+            </tr>
+            <tr class="data_row">
+              <td class="d_data"data-label="Date">04/01/2016</td>
+              <td class="d_data"data-label="Open($)">3,918.50</td>
+              <td class="d_data"data-label="Close($)">1,190.44</td>
+              <td class="d_data"data-label="High">1,1822.44</td>
+              <td class="d_data"data-label="Low">990.55</td>
+              <td class="d_data"data-label="Volume">15150510</td>
+            </tr>
+            <tr class="data_row">
+              <td class="d_data"data-label="Date">04/01/2016</td>
+              <td class="d_data"data-label="Open($)">3,918.50</td>
+              <td class="d_data"data-label="Close($)">1,190.44</td>
+              <td class="d_data"data-label="High">1,1822.44</td>
+              <td class="d_data"data-label="Low">990.55</td>
+              <td class="d_data"data-label="Volume">15150510</td>
+            </tr>
+            <tr class="data_row">
+              <td class="d_data"data-label="Date">04/01/2016</td>
+              <td class="d_data"data-label="Open($)">3,918.50</td>
+              <td class="d_data"data-label="Close($)">1,190.44</td>
+              <td class="d_data"data-label="High">1,1822.44</td>
+              <td class="d_data"data-label="Low">990.55</td>
+              <td class="d_data"data-label="Volume">15150510</td>
+            </tr>
+
+          </tbody>
+        </table> -->
+    <div>
+      <div id="data_table"></div>
+    </div>
+  </div>
+
+
+  </div>
+  </div>
+
+  </div>
+
+</body>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="styles.css" />
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="nav.js"></script>
+<script src="function.js"></script>
+
+</html>
