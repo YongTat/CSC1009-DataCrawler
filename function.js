@@ -11,26 +11,22 @@ window.onload = function () {
 
 function stockTable() {
     console.log("stockTable activate");
-
     let myTable = document.querySelector('#stock_table');
-    let stock = [
-        { stock: 'NIO', name: '04/01/2016', age: 3918.50, country: 3918.50, names: 3918.50, ages: 3918.50, countrys: '3918.50' },
-        { stock: 'NIO', name: '04/01/2016', age: 3918.50, country: 3918.50, names: 3918.50, ages: 3918.50, countrys: '3918.50' },
-        { stock: 'NIO', name: '04/01/2016', age: 3918.50, country: 3918.50, names: 3918.50, ages: 3918.50, countrys: '3918.50' },
-        { stock: 'NIO', name: '04/01/2016', age: 3918.50, country: 3918.50, names: 3918.50, ages: 3918.50, countrys: '3918.50' },
-        { stock: 'NIO', name: '04/01/2016', age: 3918.50, country: 3918.50, names: 3918.50, ages: 3918.50, countrys: '3918.50' }
-    ]
-    let headers = ['Stock', 'Date', 'Open', 'Close', 'High', 'Low', 'Volume'];
-    let table = document.createElement('table');
-    table.className = "stock_table";
-
-    generateSTableHead(table, headers);
-    generateSTable(table, stock);
-
-    myTable.appendChild(table);
+    fetch('http://localhost:3000/stock').then(result => {
+        return result.json();
+    })
+        .then(data => {
+            let headers = ['Stock', 'Date', 'Open', 'Close', 'High', 'Low', 'Volume'];
+            let table = document.createElement('table');
+            table.className = "stock_table";
+            generateSTableHead(table, headers);
+            generateSTable(table, data);
+            myTable.appendChild(table);
+        })
 }
 
 function generateSTableHead(table, data) {
+    // Javascript Array
     console.log("Generatetablehead")
     let thead = table.createTHead();
     thead.className = "stock_head";
@@ -47,23 +43,21 @@ function generateSTableHead(table, data) {
     });
 }
 
-function generateSTable(table, employees) {
+function generateSTable(table, data) {
     console.log("GenerateStable")
     let tbody = table.createTBody();
     tbody.className = "stock_body";
 
-    employees.forEach(emp => {
+    data.forEach(value => {
         let row = tbody.insertRow();
         row.className = "stock_row";
-
-        Object.values(emp).forEach(text => {
+        Object.values(value).forEach(text => {
             let cell = document.createElement('td');
             cell.className = "stock_data";
             let textNode = document.createTextNode(text);
             cell.appendChild(textNode);
             row.appendChild(cell);
         })
-
         table.appendChild(row);
     });
 
@@ -71,18 +65,6 @@ function generateSTable(table, employees) {
 
 
 function card() {
-    let stock = [
-        { name: 'Nio', age: 3918.50 },
-        { name: 'GME', age: 3918.50 },
-        { name: 'Nio', age: 3918.50 },
-        { name: 'Nio', age: 3918.50 },
-        { name: 'Nio', age: 3918.50 },
-        { name: 'Nio', age: 3918.50 },
-        { name: 'Nio', age: 3918.50 },
-        { name: 'Nio', age: 3918.50 },
-        { name: 'Nio', age: 3918.50 },
-        { name: 'Nio', age: 3918.50 }
-    ]
     let container = document.querySelector('#card_container');
     let h1 = document.createElement('h1');
     let text = document.createTextNode("Popular Data")
@@ -90,8 +72,13 @@ function card() {
     h1.appendChild(text);
     container.appendChild(h1);
 
-    generateRow(container, stock);
-    // generateCard(container, stock);
+    fetch('http://localhost:3000/stock').then(result => {
+        return result.json();
+    })
+        .then(data => {
+
+            generateRow(container, data);
+        })
 
     console.log("Card is functioning");
 
@@ -99,56 +86,49 @@ function card() {
 
 function generateRow(container, stock) {
     var count = 0;
-    // for (i = count; i < stock.length; count++) {
-    //     if (i % 5 == 0) {
     let row = document.createElement("div");
     row.className = "row_container";
     container.appendChild(row);
     console.log("Row Created");
 
-    stock.forEach(stock => {
+
+    for(i=0;i<stock.length;i++){
         let column = document.createElement('div');
         column.className = "column";
         row.appendChild(column);
         let card = document.createElement('div');
         card.className = "card";
 
-        Object.values(stock).forEach(text => {
-            let div = document.createElement('div');
-            //div.className="card";
-            let textNode = document.createTextNode(text);
-            div.appendChild(textNode);
-            card.appendChild(div);
-            column.appendChild(card);
-        })
+        if(stock[i].hasOwnProperty("stock")){
+            for(k=0;k<Object.keys(stock[i]).length;k++){
+                if((Object.keys(stock[i])[k]) == "stock"){
+                    console.log("Found");
+                    let a = document.createElement('a');
+                    let textNode = document.createTextNode(stock[i]['stock']);
+                    a.appendChild(textNode);
+                    a.title = "link";
+                    a.href = "/data.html";
+                    card.appendChild(a);
+                    column.appendChild(card);
+                }
+            }
+        }
 
-
+        if(stock[i].hasOwnProperty("date")){
+            for(k=0;k<Object.keys(stock[i]).length;k++){
+                if((Object.keys(stock[i])[k]) == "date"){
+                    console.log("Found");
+                    let div = document.createElement('div');
+                    let textNode = document.createTextNode(stock[i]['date']);
+                    div.appendChild(textNode);
+                    card.appendChild(div);
+                    column.appendChild(card);
+                }
+            }
+        }
         container.appendChild(row);
-    });
-    // }
-}
-    // generateCard(container,stock);
-function generateCard(container, stock) {
+    }
 
-    stock.forEach(stock => {
-        let column = document.createElement('div');
-        column.className = "column";
-        container.appendChild(column);
-        let card = document.createElement('div');
-        card.className = "card";
-
-        Object.values(stock).forEach(text => {
-            let div = document.createElement('div');
-            //div.className="card";
-            let textNode = document.createTextNode(text);
-            div.appendChild(textNode);
-            card.appendChild(div);
-            column.appendChild(card);
-        })
-
-
-        container.appendChild(column);
-    });
 }
 
 
@@ -204,6 +184,5 @@ function generateHTable(table, employees) {
         })
 
         table.appendChild(row);
-    });
-
+    })
 }
