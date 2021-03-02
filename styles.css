@@ -503,11 +503,12 @@
   width: 1200px;
   margin-left:auto;
   margin-right:auto;
+  max-width: 1200px;
 
 
 }
 .tweetEntry {
-  border-bottom: 1px solid #e1e8ed;
+  border-bottom: 2px solid #e1e8ed;
   cursor: pointer;
   min-height: 51px;
   padding: 9px 12px;
@@ -531,12 +532,14 @@
   font-size: 14px;
   color: #292f33;
   padding: 0px;
+  padding-right: 5px;
 }
 .tweetEntry-username {
   font-weight: bold;
   font-size: 14px;
   color: #b1bbc3;
   padding: 0px;
+  padding-right: 5px;
 }
 .tweetEntry-timestamp {
   font-size: 14px;
@@ -544,10 +547,10 @@
   padding: 0px;
 }
 .tweetEntry-text-container {
-  max-width: 1000px;
   font-size: 14px;
   color: #292f33;
   line-height: 18px;
+  word-wrap: break-word;
 }
 
 .optionalMedia {
@@ -558,5 +561,103 @@
   border-radius: 5px;
   max-width: 506px;
   max-height: 506px;
-  
+}
+
+
+
+/* Reddit.html */
+.redditEntry-tweetHolder {
+  border-left: 1px solid #e1e8ed;
+  border-right: 1px solid #e1e8ed;
+  border-top: 1px solid #e1e8ed;
+  width: 588px;
+  margin: auto;
+  border-radius: 5px;
+}
+
+/* The action list is optional. */
+.redditEntry-action-list {
+  display: block;
+  line-height: 18px;
+  margin-left: 58px;
+  margin-top: 10px;
+  color: #292f33;
+}
+.fa-reply:hover {
+  color: #292f33;
+}
+.fa-retweet:hover {
+  color: #5cd65c;
+}
+.fa-heart:hover {
+  color: #ff3333;
+}
+/************************/
+
+.reddit_container{
+  border: 0px solid #ccc;
+  border-collapse: collapse;
+  margin:0;
+  padding: 0;
+  width: 1200px;
+  margin-left:auto;
+  margin-right:auto;
+  max-width: 1200px;
+
+
+}
+.redditEntry {
+  border-bottom: 2px solid #e1e8ed;
+  cursor: pointer;
+  min-height: 51px;
+  padding: 9px 12px;
+  border-left: 2px solid black;
+}
+.redditEntry-content {
+  display: block;
+  font-size: 14px;
+  margin-left: 58px;
+  font-size: 14px;
+}
+.redditEntry-account-group {
+  color: #8899a6;
+  padding: 0px;
+  text-decoration: none;
+  line-height: 20px;
+}
+
+.redditEntry-fullname {
+  font-weight: bold;
+  font-size: 14px;
+  color: #292f33;
+  padding: 0px;
+  padding-right: 5px;
+}
+.redditEntry-username {
+  font-weight: bold;
+  font-size: 14px;
+  color: #b1bbc3;
+  padding: 0px;
+  padding-right: 5px;
+}
+.redditEntry-timestamp {
+  font-size: 14px;
+  color: #b1bbc3;
+  padding: 0px;
+}
+.redditEntry-text-container {
+  font-size: 14px;
+  color: #292f33;
+  line-height: 18px;
+  word-wrap: break-word;
+}
+
+.optionalMedia {
+  margin-left: 58px;
+  margin-top: 10px;
+}
+.optionalMedia-img {
+  border-radius: 5px;
+  max-width: 506px;
+  max-height: 506px;
 }

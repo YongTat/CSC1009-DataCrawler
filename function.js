@@ -6,9 +6,16 @@ window.onload = function () {
         stockTable();
         card();
     }
+    else if (document.URL.includes("twitter.html")) {
+        tweetGenerator();
+    }
+    else if (document.URL.includes("reddit.html")) {
+        redditGenerator();
+    }
 
 };
 
+//Index.HTML
 function stockTable() {
     console.log("stockTable activate");
     let myTable = document.querySelector('#stock_table');
@@ -16,53 +23,50 @@ function stockTable() {
         return result.json();
     })
         .then(data => {
-            let headers = ['Stock', 'Date', 'Open', 'Close', 'High', 'Low', 'Volume'];
+            let headers = ['stock', 'date', 'open', 'close', 'high', 'low', 'volume'];
             let table = document.createElement('table');
             table.className = "stock_table";
-            generateSTableHead(table, headers);
-            generateSTable(table, data);
+            generateSTableHead(table, data, headers);
             myTable.appendChild(table);
         })
 }
 
-function generateSTableHead(table, data) {
-    // Javascript Array
-    console.log("Generatetablehead")
+function generateSTableHead(table, data, headers) {
     let thead = table.createTHead();
     thead.className = "stock_head";
     let row = thead.insertRow();
     row.className = "stock_header"
-
-    data.forEach(headerText => {
+    headers.forEach(headerText => {
         let header = document.createElement('th');
         header.className = "stock_header";
         header.scope = "col";
+        header.id = headerText;
         let textNode = document.createTextNode(headerText);
         header.appendChild(textNode);
         row.appendChild(header);
     });
-}
 
-function generateSTable(table, data) {
-    console.log("GenerateStable")
     let tbody = table.createTBody();
     tbody.className = "stock_body";
-
-    data.forEach(value => {
+    for (i = 0; i < data.length; i++) {  //For Loop for Row
         let row = tbody.insertRow();
         row.className = "stock_row";
-        Object.values(value).forEach(text => {
-            let cell = document.createElement('td');
-            cell.className = "stock_data";
-            let textNode = document.createTextNode(text);
-            cell.appendChild(textNode);
-            row.appendChild(cell);
-        })
+        for (k = 1; k < Object.keys(data[i]).length; k++) {  // Loop to create Column
+            appendRow(data, row, headers);
+        }
         table.appendChild(row);
-    });
-
+    }
 }
 
+function appendRow(data, row, headers) {
+    if ((Object.keys(data[i])[k + 1]) == headers[k]) {
+        let cell = document.createElement('td');
+        cell.className = "stock_data";
+        let textNode = document.createTextNode(data[i][headers[k - 1]]);
+        cell.appendChild(textNode);
+        row.appendChild(cell);
+    }
+}
 
 function card() {
     let container = document.querySelector('#card_container');
@@ -71,38 +75,31 @@ function card() {
     h1.className = "title";
     h1.appendChild(text);
     container.appendChild(h1);
-
     fetch('http://localhost:3000/stock').then(result => {
         return result.json();
     })
         .then(data => {
-
             generateRow(container, data);
         })
-
-    console.log("Card is functioning");
-
 }
 
+//For Generating Card Row
 function generateRow(container, stock) {
     var count = 0;
     let row = document.createElement("div");
     row.className = "row_container";
     container.appendChild(row);
-    console.log("Row Created");
-
-
-    for(i=0;i<stock.length;i++){
+    for (i = 0; i < stock.length; i++) {
         let column = document.createElement('div');
         column.className = "column";
         row.appendChild(column);
         let card = document.createElement('div');
         card.className = "card";
 
-        if(stock[i].hasOwnProperty("stock")){
-            for(k=0;k<Object.keys(stock[i]).length;k++){
-                if((Object.keys(stock[i])[k]) == "stock"){
-                    console.log("Found");
+        if (stock[i].hasOwnProperty("stock")) {
+            for (k = 0; k < Object.keys(stock[i]).length; k++) {
+                if ((Object.keys(stock[i])[k]) == "stock") {
+                    // console.log("Found");
                     let a = document.createElement('a');
                     let textNode = document.createTextNode(stock[i]['stock']);
                     a.appendChild(textNode);
@@ -113,51 +110,50 @@ function generateRow(container, stock) {
                 }
             }
         }
-
-        if(stock[i].hasOwnProperty("date")){
-            for(k=0;k<Object.keys(stock[i]).length;k++){
-                if((Object.keys(stock[i])[k]) == "date"){
-                    console.log("Found");
-                    let div = document.createElement('div');
-                    let textNode = document.createTextNode(stock[i]['date']);
-                    div.appendChild(textNode);
-                    card.appendChild(div);
-                    column.appendChild(card);
-                }
-            }
-        }
+        /*Just Name should be enough*/
+        // if(stock[i].hasOwnProperty("date")){
+        //     for(k=0;k<Object.keys(stock[i]).length;k++){
+        //         if((Object.keys(stock[i])[k]) == "date"){
+        //             console.log("Found");
+        //             let div = document.createElement('div');
+        //             let textNode = document.createTextNode(stock[i]['date']);
+        //             div.appendChild(textNode);
+        //             card.appendChild(div);
+        //             column.appendChild(card);
+        //         }
+        //     }
+        // }
         container.appendChild(row);
     }
 
 }
 
-
+//Data.HTML
 function HistoricalTable() {
-    console.log("Function activate");
+    console.log("HistoricalTable activate");
     let myTable = document.querySelector('#data_table');
-    let employees = [
-        { name: '04/01/2016', age: 3918.50, country: 3918.50, names: 3918.50, ages: 3918.50, countrys: '3918.50' },
-        { name: '04/01/2016', age: 3918.50, country: 3918.50, names: 3918.50, ages: 3918.50, countrys: '3918.50' },
-        { name: '04/01/2016', age: 3918.50, country: 3918.50, names: 3918.50, ages: 3918.50, countrys: '3918.50' },
-        { name: '04/01/2016', age: 3918.50, country: 3918.50, names: 3918.50, ages: 3918.50, countrys: '3918.50' }
-    ]
-    let headers = ['Date', 'Open', 'Close', 'High', 'Low', 'Volume'];
-    let table = document.createElement('table');
-    table.className = "data_table";
+    fetch('http://localhost:3000/stock').then(result => {
+        return result.json();
+    })
+        .then(data => {
+            let headers = ['date', 'open', 'close', 'high', 'low', 'volume'];
+            let table = document.createElement('table');
+            table.className = "data_table";
 
-    generateHTableHead(table, headers);
-    generateHTable(table, employees);
+            generateHTableHead(table, data, headers);
+            // generateHTable(table, data);
 
-    myTable.appendChild(table);
+            myTable.appendChild(table);
+        })
 }
 
-function generateHTableHead(table, data) {
+function generateHTableHead(table, data, headers) {
     let thead = table.createTHead();
     thead.className = "data_head";
     let row = thead.insertRow();
     row.className = "data_header"
 
-    data.forEach(headerText => {
+    headers.forEach(headerText => {
         let header = document.createElement('th');
         header.className = "data_header";
         header.scope = "col";
@@ -165,24 +161,104 @@ function generateHTableHead(table, data) {
         header.appendChild(textNode);
         row.appendChild(header);
     });
-}
 
-function generateHTable(table, employees) {
     let tbody = table.createTBody();
     tbody.className = "data_body";
-
-    employees.forEach(emp => {
+    for (i = 0; i < data.length; i++) {  //For Loop for Row
         let row = tbody.insertRow();
         row.className = "data_row";
-
-        Object.values(emp).forEach(text => {
-            let cell = document.createElement('td');
-            cell.className = "d_data";
-            let textNode = document.createTextNode(text);
-            cell.appendChild(textNode);
-            row.appendChild(cell);
-        })
-
+        for (k = 2; k < Object.keys(data[i]).length; k++) {  // Loop to create Column
+            appendHRow(data, row, headers);
+        }
         table.appendChild(row);
-    })
+    }
+}
+
+function appendHRow(data, row, headers) {
+    if ((Object.keys(data[i])[k + 2]) == headers[k]) {
+        let cell = document.createElement('td');
+        cell.className = "d_data";
+        let textNode = document.createTextNode(data[i][headers[k - 2]]);
+        cell.appendChild(textNode);
+        row.appendChild(cell);
+    }
+}
+
+function tweetGenerator() {
+    document.getElementById('tweet_title').innerHTML = "Tweets on + Insert Name of Stock";
+    let tweet = [
+        { username: '@Janelle', name: 'Jan', timestamp: '9hr', content: '3918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.50' },
+        { username: '@Janelle', name: 'Jan', timestamp: '9hr', content: ' 3918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.50' },
+        { username: '@Janelle', name: 'Jan', timestamp: '9hr', content: '33918.503918.503918.503918.50918.50' },
+        { username: '@Janelle', name: 'Jan', timestamp: '9hr', content: '393918.503918.503918.503918.503918.503918.503918.503918.5018.50' }
+    ]
+    let box = document.querySelector('#tweet_box'); //append last
+    for (i = 0; i < tweet.length; i++) {
+        let entry = document.createElement('div');
+        entry.className = "tweetEntry";
+        entry.id = "tweetEntry";
+        box.appendChild(entry);
+        let a = document.createElement('a');
+        a.className = "tweetEntry-account-group";
+        a.href = "";
+        let strong = document.createElement('strong');
+        strong.className = "tweetEntry-fullname";
+        strong.innerHTML = tweet[i].name;
+        a.appendChild(strong);
+        let span = document.createElement('span');
+        span.className = "tweetEntry-username";
+        span.innerHTML = tweet[i].username + "    &#183";
+        a.appendChild(span);
+        let time = document.createElement('span');
+        time.className = "tweetEntry-timestamp";
+        time.innerHTML = tweet[i].timestamp;
+        a.appendChild(time);
+        entry.appendChild(a);
+        let text = document.createElement('div');
+        text.className = "tweetEntry-text-container";
+        text.innerHTML = tweet[i].content;
+        entry.appendChild(text);
+    }
+
+}
+
+//reddit.html
+
+function redditGenerator() {
+    console.log("function");
+    document.getElementById('reddit_title').innerHTML = "Post related to + Insert Name of reddit";
+    let tweet = [
+        { username: 'u/Janelle', name: 'Jan', timestamp: '9hr', content: '3918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.50' },
+        { username: 'u/Janelle', name: 'Jan', timestamp: '9hr', content: ' 3918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.50' },
+        { username: 'u/Janelle', name: 'Jan', timestamp: '9hr', content: '33918.503918.503918.503918.50918.50' },
+        { username: 'u/Janelle', name: 'Jan', timestamp: '9hr', content: '393918.503918.503918.503918.503918.503918.503918.503918.5018.50' }
+    ]
+    let box = document.querySelector('#reddit_box'); //append last
+    for (i = 0; i < tweet.length; i++) {
+        let entry = document.createElement('div');
+        entry.className = "redditEntry";
+        entry.id = "redditEntry";
+        box.appendChild(entry);
+        let a = document.createElement('a');
+        a.className = "redditEntry-account-group";
+        a.href = "";
+        let strong = document.createElement('strong');
+        strong.className = "redditEntry-fullname";
+        strong.innerHTML = tweet[i].name;
+        a.appendChild(strong);
+        let span = document.createElement('span');
+        span.className = "redditEntry-username";
+        span.innerHTML ="   &#183 Posted by: " + tweet[i].username + "    &#183";
+        a.appendChild(span);
+        let time = document.createElement('span');
+        time.className = "redditEntry-timestamp";
+        time.innerHTML = tweet[i].timestamp;
+        a.appendChild(time);
+        entry.appendChild(a);
+        let text = document.createElement('div');
+        text.className = "redditEntry-text-container";
+        text.innerHTML = tweet[i].content;
+        entry.appendChild(text);
+    }
+
 }
