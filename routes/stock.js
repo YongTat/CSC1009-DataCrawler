@@ -49,15 +49,6 @@ router.post('/', async(req,res)=>{
       console.log("Document inserted succussfully!");
     });
 
-    // try{
-    //   const savedStock = await post.save();
-    //   res.json(savedStock);
-
-    // }
-    // catch(err){
-    //   res.json({message:err});
-    // }
-
 });
 
 //Delete Stock 
