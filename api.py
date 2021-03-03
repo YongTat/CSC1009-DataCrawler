@@ -44,7 +44,7 @@ class Stock(Resource):
             json_return = list(data.find())
             return dumps(json_return)
 
-api.add_resource(Stock, "/index/<string:ticker>")
+api.add_resource(Stock, "/stocks/<string:ticker>")
 
 if __name__ == '__main__':
     app.run(debug=True)
