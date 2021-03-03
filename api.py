@@ -1,23 +1,18 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request
 from flask_restful import Resource,Api
 import pymongo
 import yfinance as yf
 from bson.json_util import dumps
+from boto.s3.connection import S3Connection
 
 # init flask app / api
 app = Flask(__name__)
 api = Api(app)
 
-# create connection to mondo db
-login = []
-with open("config.txt","r") as f:
-    s = f.readlines()
-    for line in s:
-        login.append(line.strip())
+# Login Variables
+login = S3Connection(os.environ['username'], os.environ['password'])
 client = pymongo.MongoClient("mongodb+srv://{}:{}@cluster0.vk8mu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority".format(login[0],login[1]))
 db = client["stocks"]
-# stocks = db["stocks"]
-
 
 class Stock(Resource):
     def get(self, ticker):
