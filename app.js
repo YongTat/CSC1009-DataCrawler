@@ -12,10 +12,12 @@ app.use(bodyParser.json());
 
 //import Routes
 const stockRoutes = require('./routes/stock');
+const tweeterRoutes = require('./routes/twitter');
 
 //Everytime goes to posts, use postRoutes
 
 app.use('/stock',stockRoutes);
+app.use('/twitter',tweeterRoutes);
 
 //ROUTES
 app.get('/',(req,res) => {

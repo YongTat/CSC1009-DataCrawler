@@ -7,10 +7,10 @@ window.onload = function () {
         card();
     }
     else if (document.URL.includes("twitter.html")) {
-        tweetGenerator();
+        tweetPageGenerator();
     }
     else if (document.URL.includes("reddit.html")) {
-        redditGenerator();
+        redditPageGenerator();
     }
 
 };
@@ -130,7 +130,6 @@ function generateRow(container, stock) {
 
 //Data.HTML
 function HistoricalTable() {
-    console.log("HistoricalTable activate");
     let myTable = document.querySelector('#data_table');
     fetch('http://localhost:3000/stock').then(result => {
         return result.json();
@@ -184,16 +183,22 @@ function appendHRow(data, row, headers) {
     }
 }
 
-function tweetGenerator() {
+//Twitter.html
+function tweetPageGenerator() {
     document.getElementById('tweet_title').innerHTML = "Tweets on + Insert Name of Stock";
-    let tweet = [
-        { username: '@Janelle', name: 'Jan', timestamp: '9hr', content: '3918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.50' },
-        { username: '@Janelle', name: 'Jan', timestamp: '9hr', content: ' 3918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.503918.50' },
-        { username: '@Janelle', name: 'Jan', timestamp: '9hr', content: '33918.503918.503918.503918.50918.50' },
-        { username: '@Janelle', name: 'Jan', timestamp: '9hr', content: '393918.503918.503918.503918.503918.503918.503918.503918.5018.50' }
-    ]
     let box = document.querySelector('#tweet_box'); //append last
-    for (i = 0; i < tweet.length; i++) {
+    fetch('http://localhost:3000/twitter').then(result => {
+        return result.json();
+    })
+        .then(data => {
+            GenerateTweet(box, data);
+
+            myTable.appendChild(table);
+        })
+}
+
+function GenerateTweet(box, data) {
+    for (i = 0; i < data.length; i++) {
         let entry = document.createElement('div');
         entry.className = "tweetEntry";
         entry.id = "tweetEntry";
@@ -203,28 +208,27 @@ function tweetGenerator() {
         a.href = "";
         let strong = document.createElement('strong');
         strong.className = "tweetEntry-fullname";
-        strong.innerHTML = tweet[i].name;
+        strong.innerHTML = data[i].name;
         a.appendChild(strong);
         let span = document.createElement('span');
         span.className = "tweetEntry-username";
-        span.innerHTML = tweet[i].username + "    &#183";
+        span.innerHTML = data[i].username + "    &#183";
         a.appendChild(span);
         let time = document.createElement('span');
         time.className = "tweetEntry-timestamp";
-        time.innerHTML = tweet[i].timestamp;
+        time.innerHTML = data[i].timestamp;
         a.appendChild(time);
         entry.appendChild(a);
         let text = document.createElement('div');
         text.className = "tweetEntry-text-container";
-        text.innerHTML = tweet[i].content;
+        text.innerHTML = data[i].content;
         entry.appendChild(text);
     }
-
 }
 
 //reddit.html
 
-function redditGenerator() {
+function redditPageGenerator() {
     console.log("function");
     document.getElementById('reddit_title').innerHTML = "Post related to + Insert Name of reddit";
     let tweet = [
@@ -248,7 +252,7 @@ function redditGenerator() {
         a.appendChild(strong);
         let span = document.createElement('span');
         span.className = "redditEntry-username";
-        span.innerHTML ="   &#183 Posted by: " + tweet[i].username + "    &#183";
+        span.innerHTML = "   &#183 Posted by: " + tweet[i].username + "    &#183";
         a.appendChild(span);
         let time = document.createElement('span');
         time.className = "redditEntry-timestamp";
