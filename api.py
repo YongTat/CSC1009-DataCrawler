@@ -1,17 +1,18 @@
 from flask import Flask, request
 from flask_restful import Resource,Api
 import pymongo
+import os
 import yfinance as yf
 from bson.json_util import dumps
-from boto.s3.connection import S3Connection
 
 # init flask app / api
 app = Flask(__name__)
 api = Api(app)
 
 # Login Variables
-login = S3Connection(os.environ['username'], os.environ['password'])
-client = pymongo.MongoClient("mongodb+srv://{}:{}@cluster0.vk8mu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority".format(login[0],login[1]))
+username = app.config.from_object(os.environ['username'])
+password = app.config.from_object(os.environ['password'])
+client = pymongo.MongoClient("mongodb+srv://{}:{}@cluster0.vk8mu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority".format(username,password))
 db = client["stocks"]
 
 class Stock(Resource):
