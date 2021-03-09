@@ -1,8 +1,19 @@
 #Data crawler libraries
 import requests
 from bs4 import BeautifulSoup
+import yfinance as yf
+
+# cc = yf.Ticker("NVS")
+# data = cc.history(period="max")
+# data = data[["Open","High","Low","Close","Volume"]]
+# data.reset_index(inplace=True)
+# data = data.to_dict("records")
+# data = list(data)
+# print(data)
 
 stockSymbol = []
+
+#Functions
 
 # Using beautiful soup to create parser
 def soup(url):
@@ -25,6 +36,17 @@ def getSymbol(i, soup):
                     #Add new symbol into array
                     stockSymbol.append(Symbol)
 
+def CrawlHistoricalData(symbol):
+        print(symbol)
+        stock = yf.Ticker(symbol)
+        data = stock.history(period="max")
+        data = data[["Open","High","Low","Close","Volume"]]
+        data.reset_index(inplace=True)
+        data = data.to_dict("records")
+        data = list(data)
+        return data
+
+#Classes
 class crawlEnergyStock_Symbol:
     for i in range(55,250,20):
         #Url of Energy Stock on YahooFinance
@@ -157,4 +179,8 @@ class crawlRetailingHospitalityStock_Symbol:
         #get symbol for RetailingHospitality stock
         getSymbol(i, RetailingHospitality_soup)
 
-#print(stockSymbol)
+class crawlHistoricalData:
+    i = 0
+    while i < len(stockSymbol):
+        print(CrawlHistoricalData(stockSymbol[i]))
+        i+=1
