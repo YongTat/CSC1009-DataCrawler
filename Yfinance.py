@@ -3,18 +3,13 @@ import requests
 from bs4 import BeautifulSoup
 import yfinance as yf
 
-# cc = yf.Ticker("NVS")
-# data = cc.history(period="max")
-# data = data[["Open","High","Low","Close","Volume"]]
-# data.reset_index(inplace=True)
-# data = data.to_dict("records")
-# data = list(data)
-# print(data)
+#Mongodb Database
+import pymongo
 
+# Array
 stockSymbol = []
 
 #Functions
-
 # Using beautiful soup to create parser
 def soup(url):
     #HTTP request to the Url
@@ -179,8 +174,36 @@ class crawlRetailingHospitalityStock_Symbol:
         #get symbol for RetailingHospitality stock
         getSymbol(i, RetailingHospitality_soup)
 
+
+# Crawl and store historical data 
 class crawlHistoricalData:
+    # Login Variables
+    login = []
+    with open("config.txt", "r") as f:
+        for line in f:
+            login.append(line.strip())
+    client = pymongo.MongoClient("mongodb+srv://{}:{}@cluster0.vk8mu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority".format(login[0],login[1]))
+
+    # connect to stocks database
+    db = client["stocks"]
+    # Get all collection of stocks
+    existing_list = db.list_collection_names()
+
     i = 0
     while i < len(stockSymbol):
-        print(CrawlHistoricalData(stockSymbol[i]))
+        try:
+            if stockSymbol[i] not in existing_list:
+                raise Exception("Stock Not Found")
+        except Exception:
+            # create new collection
+            print("Creating New Collection")
+            new_collection = db[stockSymbol[i]]
+            data = CrawlHistoricalData(stockSymbol[i])
+            
+            if len(data) != 0:
+                # fetch and insert data
+                new_collection.insert_many(data)
+            else:
+                print("No Historical data")
         i+=1
+
