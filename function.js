@@ -75,7 +75,7 @@ function card() {
     h1.className = "title";
     h1.appendChild(text);
     container.appendChild(h1);
-    fetch('http://localhost:3000/stock').then(result => {
+    fetch('http://localhost:5000/stockslist').then(result => {
         return result.json();
     })
         .then(data => {
@@ -95,34 +95,12 @@ function generateRow(container, stock) {
         row.appendChild(column);
         let card = document.createElement('div');
         card.className = "card";
-
-        if (stock[i].hasOwnProperty("stock")) {
-            for (k = 0; k < Object.keys(stock[i]).length; k++) {
-                if ((Object.keys(stock[i])[k]) == "stock") {
-                    // console.log("Found");
-                    let a = document.createElement('a');
-                    let textNode = document.createTextNode(stock[i]['stock']);
-                    a.appendChild(textNode);
-                    a.title = "link";
-                    a.href = "/data.html";
-                    card.appendChild(a);
-                    column.appendChild(card);
-                }
-            }
-        }
-        /*Just Name should be enough*/
-        // if(stock[i].hasOwnProperty("date")){
-        //     for(k=0;k<Object.keys(stock[i]).length;k++){
-        //         if((Object.keys(stock[i])[k]) == "date"){
-        //             console.log("Found");
-        //             let div = document.createElement('div');
-        //             let textNode = document.createTextNode(stock[i]['date']);
-        //             div.appendChild(textNode);
-        //             card.appendChild(div);
-        //             column.appendChild(card);
-        //         }
-        //     }
-        // }
+        let a = document.createElement('a');
+        a.href = "http://localhost:5000/stocks/" + stock[i];
+        let textNode = document.createTextNode(stock[i]);
+        a.appendChild(textNode);
+        card.appendChild(a);
+        column.appendChild(card);
         container.appendChild(row);
     }
 
@@ -131,18 +109,18 @@ function generateRow(container, stock) {
 //Data.HTML
 function HistoricalTable() {
     let myTable = document.querySelector('#data_table');
-    fetch('http://localhost:3000/stock').then(result => {
+    fetch('http://localhost:5000/stocks/GME').then(result => {
+        // console.log(result.json);
         return result.json();
     })
         .then(data => {
-            let headers = ['date', 'open', 'close', 'high', 'low', 'volume'];
+            console.log(JSON.parse(data));
+            let headers = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume'];
             let table = document.createElement('table');
             table.className = "data_table";
-
-            generateHTableHead(table, data, headers);
-            // generateHTable(table, data);
-
+            generateHTableHead(table, JSON.parse(data), headers);
             myTable.appendChild(table);
+            console.log("Done Appending");
         })
 }
 
@@ -166,7 +144,8 @@ function generateHTableHead(table, data, headers) {
     for (i = 0; i < data.length; i++) {  //For Loop for Row
         let row = tbody.insertRow();
         row.className = "data_row";
-        for (k = 2; k < Object.keys(data[i]).length; k++) {  // Loop to create Column
+        // console.log(Object.keys(data[i]).length);
+        for (k = 0; k < Object.keys(data[i]).length; k++) {  // Loop to create Column
             appendHRow(data, row, headers);
         }
         table.appendChild(row);
@@ -174,13 +153,35 @@ function generateHTableHead(table, data, headers) {
 }
 
 function appendHRow(data, row, headers) {
-    if ((Object.keys(data[i])[k + 2]) == headers[k]) {
-        let cell = document.createElement('td');
-        cell.className = "d_data";
-        let textNode = document.createTextNode(data[i][headers[k - 2]]);
-        cell.appendChild(textNode);
-        row.appendChild(cell);
+    for(j=0; j<Object.keys(data[i]).length; j++){
+        if (Object.keys(data[i])[j].localeCompare(headers[k]) == 0) {
+            if(Object.keys(data[i])[j] == "Date"){
+                console.log(Object.keys(data[i])[k]);
+                let cell = document.createElement('td');
+                cell.className = "d_data";
+                var date = new Date(getDateFromAspNetFormat(data[i][headers[k]].$date));
+                let textNode = document.createTextNode(date);
+                cell.appendChild(textNode);
+                row.appendChild(cell);
+                console.log("Row Appended");
+            }
+            else{
+                console.log(Object.keys(data[i])[k]);
+                let cell = document.createElement('td');
+                cell.className = "d_data";
+                let textNode = document.createTextNode(data[i][headers[k]]);
+                cell.appendChild(textNode);
+                row.appendChild(cell);
+                console.log("Row Appended");
+            }
+        }
     }
+}
+
+function getDateFromAspNetFormat(date){
+    const re = /-?\d+/;
+    const m = re.exec(date);
+    return parseInt(m[0], 10);
 }
 
 //Twitter.html
@@ -205,15 +206,15 @@ function GenerateTweet(box, data) {
         box.appendChild(entry);
         let a = document.createElement('a');
         a.className = "tweetEntry-account-group";
-        a.href = "";
-        let strong = document.createElement('strong');
-        strong.className = "tweetEntry-fullname";
-        strong.innerHTML = data[i].name;
-        a.appendChild(strong);
-        let span = document.createElement('span');
-        span.className = "tweetEntry-username";
-        span.innerHTML = data[i].username + "    &#183";
-        a.appendChild(span);
+        // a.href = "";
+        // let strong = document.createElement('strong');
+        // strong.className = "tweetEntry-fullname";
+        // strong.innerHTML = data[i].name;
+        // a.appendChild(strong);
+        // let span = document.createElement('span');
+        // span.className = "tweetEntry-username";
+        // span.innerHTML = data[i].username + "    &#183";
+        // a.appendChild(span);
         let time = document.createElement('span');
         time.className = "tweetEntry-timestamp";
         time.innerHTML = data[i].timestamp;
