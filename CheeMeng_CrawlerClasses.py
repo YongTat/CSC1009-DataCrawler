@@ -9,6 +9,17 @@ import pymongo
 # Array
 stockSymbol = []
 
+topStocks = ["AMZN", 
+                "APPL",
+                "BABA",
+                "FB",
+                "NFLX",
+                "GME",
+                "GOOG",
+                "IBM",
+                "ORCL",
+                "TSLA"]
+
 class beautifulSoup():
     def __init__(self, url):
         self.url = url
@@ -71,3 +82,62 @@ class connectionToMongoDb():
 
         return client
 
+def main():
+    # Get connection to MongoDB
+    login = []
+    callConnetionToMOngoDb = connectionToMongoDb(login)
+    client = callConnetionToMOngoDb.getConnectionToMongoDb()
+
+    # Connect to stocks database
+    db = client["stocks"]
+
+    # Get all collection of stocks
+    existing_list = db.list_collection_names()
+
+    iTopStock = 0
+    while iTopStock < len(topStocks):
+        try:
+            if topStocks[iTopStock] not in existing_list:
+                raise Exception("Stock Not Found")
+        except Exception:
+            # create new collection
+            print("Creating New Collection")
+            currentStock = str(topStocks[iTopStock])
+            new_collection = db[currentStock]
+            callCrawlHistoricalData = crawlHistoricalData(currentStock)
+            data = callCrawlHistoricalData.getHistoricalData()
+            
+            if len(data) != 0:
+                # fetch and insert data
+                new_collection.insert_many(data)
+            else:
+                print("No Historical data")
+        iTopStock+=1
+
+
+
+    #Crawl historical data for all stocks from yahoo finance
+    # i = 0
+    # while i < len(stockSymbol):
+    #     try:
+    #         if stockSymbol[i] not in existing_list:
+    #             raise Exception("Stock Not Found")
+    #     except Exception:
+    #         # create new collection
+    #         print("Creating New Collection")
+    #         currentStockSymbol = str(stockSymbol[i])
+    #         new_collection = db[currentStockSymbol]
+    #         callCrawlHistoricalData = crawlHistoricalData(currentStockSymbol)
+    #         data = callCrawlHistoricalData.getHistoricalData()
+            
+    #         if len(data) != 0:
+    #             # fetch and insert data
+    #             new_collection.insert_many(data)
+    #         else:
+    #             print("No Historical data")
+    #     i+=1
+
+
+
+if __name__ == "__main__":
+    main()

@@ -23,18 +23,18 @@ with open("config.txt", "r") as f:
 client = pymongo.MongoClient("mongodb+srv://{}:{}@cluster0.vk8mu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority".format(login[0],login[1]))
 
 #stock Industries
-stockIndustries = ["energy",
-                    # "financial",
-                    # "healthcare",
-                    # "business_services",
-                    # "telecom_utilities",
-                    # "hardware_electronics",
-                    # "software_services",
-                    # "manufacturing_materials",
-                    # "consumer_products_media",
-                    # "industrials",
-                    # "diversified_business",
-                    "retailing_hospitality"]
+# stockIndustries = ["energy",
+#                     # "financial",
+#                     # "healthcare",
+#                     # "business_services",
+#                     # "telecom_utilities",
+#                     # "hardware_electronics",
+#                     # "software_services",
+#                     # "manufacturing_materials",
+#                     # "consumer_products_media",
+#                     # "industrials",
+#                     # "diversified_business",
+#                     "retailing_hospitality"]
 
 # Code to run when /stocks/ticker is ran
 class Stock(Resource):
@@ -60,53 +60,53 @@ class Stock(Resource):
             json_return = list(data.find().sort("Date",-1).limit(100))
             return dumps(json_return)
 
-    def crawl(self):
-        iIndustries = 0
-        while iIndustries < len(stockIndustries):
-            #Url of stock on YahooFinance
-            Url = "https://sg.finance.yahoo.com/industries/" + stockIndustries[iIndustries]
+    # def crawl(self):
+    #     iIndustries = 0
+    #     while iIndustries < len(stockIndustries):
+    #         #Url of stock on YahooFinance
+    #         Url = "https://sg.finance.yahoo.com/industries/" + stockIndustries[iIndustries]
             
-            for i in range(55,250,20):
-                # Get BS object by requesting url
-                callBeautifulSoup = beautifulSoup(Url)
-                soup = callBeautifulSoup.getsSoup()
+    #         for i in range(55,250,20):
+    #             # Get BS object by requesting url
+    #             callBeautifulSoup = beautifulSoup(Url)
+    #             soup = callBeautifulSoup.getsSoup()
 
-                #get symbol for stock
-                callCrawlSymbol = crawlSymbol(i, soup)
-                stockSymbol = callCrawlSymbol.getSymbol()
+    #             #get symbol for stock
+    #             callCrawlSymbol = crawlSymbol(i, soup)
+    #             stockSymbol = callCrawlSymbol.getSymbol()
 
-            iIndustries += 1
+    #         iIndustries += 1
 
-        # Get connection to MongoDB
-        login = []
-        callConnetionToMOngoDb = connectionToMongoDb(login)
-        client = callConnetionToMOngoDb.getConnectionToMongoDb()
+    #     # Get connection to MongoDB
+    #     login = []
+    #     callConnetionToMOngoDb = connectionToMongoDb(login)
+    #     client = callConnetionToMOngoDb.getConnectionToMongoDb()
 
-        # Connect to stocks database
-        db = client["stocks"]
+    #     # Connect to stocks database
+    #     db = client["stocks"]
 
-        # Get all collection of stocks
-        existing_list = db.list_collection_names()
+    #     # Get all collection of stocks
+    #     existing_list = db.list_collection_names()
         
-        i = 0
-        while i < len(stockSymbol):
-            try:
-                if stockSymbol[i] not in existing_list:
-                    raise Exception("Stock Not Found")
-            except Exception:
-                # create new collection
-                print("Creating New Collection")
-                currentStockSymbol = str(stockSymbol[i])
-                new_collection = db[currentStockSymbol]
-                callCrawlHistoricalData = crawlHistoricalData(currentStockSymbol)
-                data = callCrawlHistoricalData.getHistoricalData()
+    #     i = 0
+    #     while i < len(stockSymbol):
+    #         try:
+    #             if stockSymbol[i] not in existing_list:
+    #                 raise Exception("Stock Not Found")
+    #         except Exception:
+    #             # create new collection
+    #             print("Creating New Collection")
+    #             currentStockSymbol = str(stockSymbol[i])
+    #             new_collection = db[currentStockSymbol]
+    #             callCrawlHistoricalData = crawlHistoricalData(currentStockSymbol)
+    #             data = callCrawlHistoricalData.getHistoricalData()
                 
-                if len(data) != 0:
-                    # fetch and insert data
-                    new_collection.insert_many(data)
-                else:
-                    print("No Historical data")
-            i+=1
+    #             if len(data) != 0:
+    #                 # fetch and insert data
+    #                 new_collection.insert_many(data)
+    #             else:
+    #                 print("No Historical data")
+    #         i+=1
     
 class StocksList(Resource):
     def get(self):
