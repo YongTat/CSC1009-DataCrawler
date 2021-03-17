@@ -44,6 +44,8 @@ class createParser(getIndustries):
         soup=BeautifulSoup(data, 'lxml')
         return soup
 
+
+
 ############ Crawl Historical Data from Yahoo Finance ###########
 class setSymbol():
     def __init__(self,symbol):
@@ -61,6 +63,7 @@ class crawlHistoricalData(setSymbol):
             data = data.to_dict("records")
             data = list(data)
             return data
+
 
 
 ############ Use Beautiful soup parser ###########
@@ -81,6 +84,7 @@ class crawlSymbol():
                     #Add new symbol into array
                     stockSymbol.append(Symbol)
         return stockSymbol
+
 
 
 ############ connection to MongoDb ###########
@@ -126,6 +130,8 @@ def crawlTopStock(db, existing_list):
             else:
                 print("No Historical data")
         iTopStock+=1
+
+
 
 ############ Crawl Stocks by different industries ###########
 def crawlIndustryStocks(db, existing_list):
