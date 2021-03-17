@@ -16,10 +16,8 @@ class connectionToMongoDb():
         with open("config.txt", "r") as f:
             for line in f:
                 login.append(line.strip())
-        #client = pymongo.MongoClient("mongodb+srv://{}:{}@cluster0.vk8mu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority".format(login[0],login[1]))
-        client = pymongo.MongoClient("mongodb+srv://{}:{}@cluster0.ydgcg.mongodb.net/Tweets?retryWrites=true&w=majority".format(login[0],login[1]))
+        client = pymongo.MongoClient("mongodb+srv://{}:{}@cluster0.vk8mu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority".format(login[0],login[1]))
         return client
-
 
 class crawlTweets():
     def __init__(self,username):
@@ -69,10 +67,9 @@ class crawlTweets():
 
 def main():
     login = []
-    callConnetionToMOngoDb = connectionToMongoDb(login)
-    client = callConnetionToMOngoDb.getConnectionToMongoDb()
-    db = client["trr"]
-    print(db)
+    connectToMongoDb = connectionToMongoDb(login)
+    client = connectToMongoDb.getConnectionToMongoDb()
+    db = client["twitter"]
     existing_list = db.list_collection_names()
 
     count = 0
@@ -85,13 +82,13 @@ def main():
             print("Creating New Collection")
             current_screenname = str(screen_names[count])
             current_stockname = str(stock_names[count])
-            #print(current)
+            print(current_stockname)
             new_collection = db[current_stockname]
             callCrawlHistoricalData = crawlTweets(current_screenname)
             data = callCrawlHistoricalData.get_all_tweets()
             
             if len(data) != 0:
-                    # fetch and insert data
+                    #insert data into collections
                     for tweet in data:
                         new_collection.insert_one({
                         "tweet_text": tweet.text,
@@ -99,6 +96,7 @@ def main():
             else:
                 print("No Historical data")     
         count+=1
+
 
 if __name__ == "__main__":
     main()
