@@ -48,6 +48,7 @@
     max-width: 1300px;
     margin: 0 auto;
     padding: 0 50px;
+
   }
   
   #navbar__logo {
@@ -357,6 +358,17 @@
 .data_container{
   padding-top: 2rem;
   
+}
+.chart_container{
+  max-width: 800px;
+  padding: 0;
+  margin: 0;
+}
+.chartjs-render-monitor{
+  max-width: 500px;
+  display:flex;
+  margin-left:auto;
+  margin-right:auto;
 }
 .data_table {
   border: 0px solid #ccc;
