@@ -56,11 +56,15 @@ class crawlHistoricalData(setSymbol):
     # Crawl historical data                    
     def getHistoricalData(self):
             print(self.currentSymbol)
+            #Access ticker data
             stock = yf.Ticker(self.currentSymbol)
+            #Get max period of historical data 
             data = stock.history(period="max")
+            #Request for those values
             data = data[["Open","High","Low","Close","Volume"]]
             data.reset_index(inplace=True)
             data = data.to_dict("records")
+            #Set historical data into a list
             data = list(data)
             return data
 
@@ -73,7 +77,7 @@ class crawlSymbol():
         self.i = i
         self.soup = soup
 
-    # Get stock symbols from webpage
+    #Get stock symbols from webpage
     def getSymbol(self):
         #Scrap all symbols from table
         for listing in self.soup.find_all('tr', attrs={'data-reactid':self.i}):
@@ -100,7 +104,8 @@ class connectionToMongoDB(getDatabaseName):
         with open("config.txt", "r") as f:
             for line in f:
                 login.append(line.strip())
-        client = pymongo.MongoClient("mongodb+srv://{}:{}@cluster0.vk8mu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority".format(login[0],login[1]))
+        client = 
+            pymongo.MongoClient("mongodb+srv://{}:{}@cluster0.vk8mu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority".format(login[0],login[1]))
 
         # Connect to stocks database
         db = client[self.database]        
