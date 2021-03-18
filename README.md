@@ -34,7 +34,7 @@ pip install pymongo
 ```
 
 ## 3.2 Functionalities of Yahoo Finance Crawler
-
+---
 ### Cheemeng_yFinanceCrawler.py
 
 #### 1. Importing libraries
