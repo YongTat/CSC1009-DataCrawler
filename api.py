@@ -8,7 +8,7 @@ import pymongo
 from bson.json_util import dumps
 # import python module from teams mates below here
 from YongTat_YFinance import StockGetter
-import CheeMeng_CrawlerClasses as StockCrawler
+import CheeMeng_yFinanceCrawler as StockCrawler
 
 # init flask app / api
 app = Flask(__name__)
