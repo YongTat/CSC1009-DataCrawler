@@ -250,25 +250,25 @@ def crawlIndustryStocks(db, existing_list):
                 print("No Historical data")
         i+=1
 
-def main():
-    # retrieve existing stock names from dababase
-    db = connectionToMongoDB("stock")
-    db = db.getCurrentDb()
-    existing_list = db.list_collection_names
+# def main():
+#     # retrieve existing stock names from dababase
+#     db = connectionToMongoDB("stock")
+#     db = db.getCurrentDb()
+#     existing_list = db.list_collection_names
 
 
-    crawlTopStock(db, existing_list)
-    crawlIndustryStocks(db, existing_list)
+#     crawlTopStock(db, existing_list)
+#     crawlIndustryStocks(db, existing_list)
 
-    # # retrieve existing stock names from dababase
-    # db = YFinanceCrawler.connectionToMongoDB("stock")
-    # db = db.getCurrentDb()
-    # existing_list = db.list_collection_names
+#     # # retrieve existing stock names from dababase
+#     # db = YFinanceCrawler.connectionToMongoDB("stock")
+#     # db = db.getCurrentDb()
+#     # existing_list = db.list_collection_names
 
-    # YFinanceCrawler.crawlTopStock(db, existing_list)
-    # YFinanceCrawler.crawlIndustryStocks(db, existing_list)
+#     # YFinanceCrawler.crawlTopStock(db, existing_list)
+#     # YFinanceCrawler.crawlIndustryStocks(db, existing_list)
 
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
