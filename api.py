@@ -8,7 +8,8 @@ import pymongo
 from bson.json_util import dumps
 # import python module from teams mates below here
 from YongTat_YFinance import StockGetter
-import CheeMeng_yFinanceCrawler as StockCrawler
+# import CheeMeng_CrawlerClasses as YFinanceCrawler
+from Jielin_twitterCrawler import crawlTweets
 
 # init flask app / api
 app = Flask(__name__)
@@ -21,15 +22,6 @@ with open("config.txt", "r") as f:
     for line in f:
         login.append(line.strip())
 client = pymongo.MongoClient("mongodb+srv://{}:{}@cluster0.vk8mu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority".format(login[0],login[1]))
-
-#stock Industries
-# stockIndustries = ["energy",
-#                     # "financial",
-#                     # "business_services",
-#                     # "telecom_utilities",
-#                     # "hardware_electronics",
-#                     # "software_services",
-#                     "retailing_hospitality"]
 
 # Code to run when /stocks/ticker is ran
 class Stock(Resource):
@@ -81,9 +73,31 @@ class StocksList(Resource):
 
 # Code to run when /twitter/ticker is ran
 class Twitter(Resource):
-    # connect to twitter database
-    db = client["twitter"]
-    pass
+    def get(self, handle):
+        # connect to twitter database
+        db = client["twitter"]
+
+        # Create Twitter Crawler Object
+        twitterCrawler = crawlTweets(handle)
+
+        existing_list = db.list_collection_names()
+
+        try:
+            if handle not in existing_list:
+                raise Exception("User Not Found")
+        except Exception:
+            # create new collection
+            print("Creating New Collection")
+            new_collection = db[handle]
+            twitterCrawler = crawlTweets(handle)
+            # fetch and insert data
+            data = twitterCrawler.get_all_tweets()
+            new_collection.insert_many(data)
+        finally:
+            # get all documents
+            data = db[handle]
+            json_return = list(data.find().sort("Date",-1).limit(100))
+            return dumps(json_return)
 
 # Code to run when /reddit/ticker is ran
 class Reddit(Resource):
