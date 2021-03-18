@@ -8,7 +8,7 @@ import pymongo
 from bson.json_util import dumps
 # import python module from teams mates below here
 from YongTat_YFinance import StockGetter
-# import CheeMeng_CrawlerClasses as YFinanceCrawler
+from CheeMeng_yFinanceCrawler import YFinanceCrawler
 from Jielin_twitterCrawler import crawlTweets
 
 # init flask app / api
@@ -37,23 +37,20 @@ class Stock(Resource):
             # create new collection
             print("Creating New Collection")
             new_collection = db[ticker]
-            #collecter = StockGetter(ticker)
 
             #crawl stock
-            collecter_stocks = StockCrawler.YFinanceCrawler(ticker)
+            collecter_stocks = YFinanceCrawler(ticker)
 
             #crawl industries stock
             # software_services/ hardware_electronics/ business_services
-            collecter_Industries = StockCrawler.YFinanceCrawler(ticker)
+            collecter_Industries = YFinanceCrawler(ticker)
 
             # fetch and insert data
-            #data = collecter.GetData()
             data_stocks = collecter_stocks.getHistoricalData()
 
-            data_Industries = collecter_Industries.getIndustriesStockData(db)
+            collecter_Industries.getIndustriesStockData(db)
 
             new_collection.insert_many(data_stocks)
-            new_collection.insert_many(data_Industries)
         finally:
             # get all documents
             data = db[ticker]

@@ -159,7 +159,3 @@ class YFinanceCrawler():
                 else:
                     print("No Historical data")
             i += 1
-
-        
-
-        
