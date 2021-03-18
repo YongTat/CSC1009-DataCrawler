@@ -153,19 +153,12 @@
   padding: 0;
   width: 1200px;
   table-layout: auto;
-  margin-left:auto;
-  margin-right:auto;
-
-
+  margin-left:200px;
+  max-height: 600px;
+  overflow: auto; 
+  display: inline-block;
+  
 }
-
-/* table caption {
-  font-size: 2em;
-  font-weight: 700;
-  margin: .5em 0 .75em;
-
-} */
-
 
 .stock_row {
   background-color: #f8f8f8;
@@ -356,7 +349,7 @@
 /* Historical Data Table */
 
 .data_container{
-  padding-top: 2rem;
+  padding-top: 30px;
   
 }
 .chart_container{
@@ -377,18 +370,13 @@
   padding: 0;
   width: 1200px;
   table-layout: auto;
-  margin-left:auto;
+  margin-left:200px;
   margin-right:auto;
+  max-height: 600px;
+  overflow: auto; 
+  display: inline-block;
 
 }
-
-/* table caption {
-  font-size: 2em;
-  font-weight: 700;
-  margin: .5em 0 .75em;
-
-} */
-
 
 .data_row {
   background-color: #f8f8f8;
@@ -397,9 +385,6 @@
   padding: .35em;
 
 }
-/* .data_row:hover{
-  background-color: #ccddf5;
-} */
 
 .data_header, .d_data {
   padding: .625em;
@@ -419,10 +404,6 @@
   .data_table {
     border: 0;
   }
-
-  /* table caption {
-    font-size: 1.3em;
-  } */
   
   .data_head {
     border: none;
@@ -449,10 +430,6 @@
   }
   
   .table_data::before {
-    /*
-    * aria-label has no advantage, it won't be read inside a table
-    content: attr(aria-label);
-    */
     content: attr(data-label);
     float: left;
     font-weight: bold;
@@ -463,20 +440,6 @@
     border-bottom: 0;
   }
 }
-
-/* Reddit.html */
-
-/* .container {
-	margin:0 auto;
-	width:800px;
-}
-
-.tw-icon {
-	margin:0 auto;
-} */
-
-
-
 
 /* Twitter.html */
 .tweetEntry-tweetHolder {

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" />
@@ -12,7 +11,6 @@
   <script src="node_modules\requirejs\require.js"></script>
   <title>Stock Sources</title>
 </head>
-
 <body>
   <!-- Navbar Section -->
   <div id="nav-placeholder"></div>
@@ -27,7 +25,7 @@
       const values =[];
       const labels = getLabel();
       chartIt();
-
+      //Function to chart the graph
       async function chartIt() {
         await getData();
         await getLabel();
@@ -70,7 +68,7 @@
           }
         });
       }
-
+      //Async Function to get Data from database
       async function getData() {
         const urlParams = new URLSearchParams(window.location.search);
         const stock = urlParams.get('name');
@@ -94,5 +92,4 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="styles.css" />
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-
 </html>

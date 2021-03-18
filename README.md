@@ -1,10 +1,17 @@
 # 2. Front-End Web Application
 
-As the Web Application is a local Node.Js Application, there are some prerequisites to do/run to allow the Web Application to function correctly along with the API and Database. 
+As the Web Application is a local Application, there are some prerequisites to do/run to allow the Web Application to function correctly along with the API and Database. 
 
 ## 2.1 Prerequisites
 ---
-For the Node.JS Web Application, we will need to run for run it locally with the command:
+
+Before starting on the Web Application, we will need to check whether the Node.JS environment is installed. We will be using Node.JS to install certain modules and plugins for some functions in the Web Application In the command prompt, you can check the node version by entering: 
+```c
+node -v 
+```
+If Node.JS is not installed, you can go to this link for [installation](https://nodejs.org/en/download/). 
+
+For the Web Application, we will need to run for run it locally with the command in Visual Studio:
 
 ```c
 npm start
@@ -20,6 +27,7 @@ Usage:
 require-browser
 ```
 
+Following that, we will open the main file with live Server: *Index.html*.
 
 ---
 ## 2.2 Functionaility of Web Application
@@ -38,7 +46,6 @@ Secondly, it will be the cards that are populated by the 10 data that we have se
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" />
@@ -48,17 +55,15 @@ Secondly, it will be the cards that are populated by the 10 data that we have se
   <script src="nav.js"></script>
   <script src="function.js"></script>
 </head>
-
 <body>
   <!-- Navbar Section -->
   <div id="nav-placeholder"></div>
   <div class="stock_container">
-    <h1 class="title">Top 10 Most Recent Historial Data </h1>
+    <h1 class="title">Stock's Recent Historial Data </h1>
     <div>
       <div id="stock_table"></div>
     </div>
   </div>
-
   <!-- Test card  -->
   <div id="card_container">
   </div>
@@ -82,7 +87,6 @@ The second set of data that is displayed would be the historical data of the sto
 ```c
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" />
@@ -94,7 +98,6 @@ The second set of data that is displayed would be the historical data of the sto
   <script src="node_modules\requirejs\require.js"></script>
   <title>Stock Sources</title>
 </head>
-
 <body>
   <!-- Navbar Section -->
   <div id="nav-placeholder"></div>
@@ -109,7 +112,7 @@ The second set of data that is displayed would be the historical data of the sto
       const values =[];
       const labels = getLabel();
       chartIt();
-
+      //Function to chart the graph
       async function chartIt() {
         await getData();
         await getLabel();
@@ -152,7 +155,7 @@ The second set of data that is displayed would be the historical data of the sto
           }
         });
       }
-
+      //Async Function to get Data from database
       async function getData() {
         const urlParams = new URLSearchParams(window.location.search);
         const stock = urlParams.get('name');
@@ -176,13 +179,15 @@ The second set of data that is displayed would be the historical data of the sto
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="styles.css" />
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-
 </html>
+
 ```
 
 ---
 ### 2.2.3 Twitter.html
 ---
+For Twitter.html, it is a simple html that will display tweets that is based on the URL parameter that is thrown. With that parameter, the function will take the parameter and display a limited amount of tweets in the tweet container. 
+
 ```c
 <!DOCTYPE html>
 <html lang="en">
@@ -200,25 +205,20 @@ The second set of data that is displayed would be the historical data of the sto
   <!-- Navbar Section -->
   <div id="nav-placeholder"></div>
   <!-- Display Historical Data -->
-  <div class="data_container">
-    <h1 class="title" id="tweet_title">Tweets on #####</h1>
-    <!-- Nagivation for Historical Data, Twitter, Reddit -->
-    <div class="nav_menu">
-      <ul class="menu_list">
-        <li class="menu_item"><a href="data.html">Data</a></li>
-        <li class="menu_item"><a href="reddit.html">Reddit</a></li>
-      </ul>
+  <div class="data_container" id="data_container">
+    <h1 class="title" id="tweet_title"></h1>
+    <div class="menu_container" id="menu_container">
     </div>
     <div class="tweet_container" id="tweet_box">
     </div>
   </div>
 </body>
-<script src="function.js"></script>
 </html>
 ```
 ---
 ### 2.2.4 Reddit.html
 ---
+For reddit.html, is works the same as the twitter.html by displaying subreddit posts. However, the subreddit post are only subjected to reference and will only be taken from either WSB subreddit or stocks subreddit as not all companies have official subreddit communities.
 ```c
 <!DOCTYPE html>
 <html lang="en">
@@ -237,17 +237,10 @@ The second set of data that is displayed would be the historical data of the sto
     <div id="nav-placeholder"></div>
     <!-- Display Historical Data -->
     <div class = "data_container">
-        <h1 class="title" id="reddit_title">For Reddit</h1>
+        <h1 class="title" id="reddit_title"></h1>
         <!-- Nagivation for Historical Data, Twitter, Reddit -->
-    <div class="nav_menu">
-      <ul class="menu_list">
-        <li class="menu_item"><a href="data.html">Data</a></li>
-        <li class="menu_item"><a href="twitter.html">Twitter</a></li>
-      </ul>      
-    </div> 
     <div class="reddit_container" id="reddit_box">
     </div>
- 
   </body>
 </html>
 
@@ -265,7 +258,9 @@ For the stockTable function, it’s primary purpose is to create and append the 
 
 ```c
 function stockTable() {
+    //Look for stock_table ID 
     let myTable = document.querySelector('#stock_table');
+    //Fetch API URL for JSON data 
     fetch('http://localhost:5000/stockslist').then(result => {
         return result.json();
     })
@@ -274,7 +269,6 @@ function stockTable() {
             let table = document.createElement('table');
             table.className = "stock_table";
             table.id = "stockTable";
-            table.onload = "sortTable()";
             generateSTableHead(table, data, headers);
             myTable.appendChild(table);
         })
@@ -283,7 +277,7 @@ function stockTable() {
 For the generateSTableHead function, the first half is on how to create the headers by using loop through each element inside the *headers* array. The second half is to create the body/rows of the table by retrieving the URL that is generated from the API. 
 ```c
 function generateSTableHead(table, stock, headers) {
-    let selected = [];
+    //Create Table Head
     let thead = table.createTHead();
     thead.className = "stock_head";
     let row = thead.insertRow();
@@ -297,12 +291,13 @@ function generateSTableHead(table, stock, headers) {
         header.appendChild(textNode);
         row.appendChild(header);
     });
-
+    //Creating Table Body
     let tbody = table.createTBody();
     tbody.className = "stock_body";
     let parsed;
     for (i = 0; i < stock.length; i++) {
         let stockName = stock[i];
+        //Fetch API URL for JSON data 
         fetch('http://localhost:5000/stocks/' + stock[i]).then(result => {
             return result.json();
         })
@@ -316,11 +311,11 @@ function generateSTableHead(table, stock, headers) {
                 let textNode = document.createTextNode(stockName);
                 cell.appendChild(textNode);
                 row.appendChild(cell);
-
-                for (k = 0; k < Object.keys(parsed[i]).length; k++) {  // Loop to create Column
+                // Loop to the amount of keys that the data have
+                for (k = 0; k < 7; k++) {
                     appendRow(parsed, row, headers);
                 }
-                table.appendChild(row);
+                tbody.appendChild(row);
             })
     }
 }
@@ -328,8 +323,10 @@ function generateSTableHead(table, stock, headers) {
 AppendRow Function primary goal is to loop through the keys in each of the JSON data that was parsed through fetch. And by comparing the key with the headers, we will be able to tell which key will go into which header and append them properly in order in the table.
 ```c
 function appendRow(data, row, headers) {
-    for (j = 0; j < Object.keys(data[i]).length; j++) {
+    for (j = 0; j < 7; j++) {
+        //Compare whether keys and header matches
         if (Object.keys(data[0])[j].localeCompare(headers[k]) == 0) {
+            //Check if the key is Date in order to format the date
             if (Object.keys(data[0])[j] == "Date") {
                 let cell = document.createElement('td');
                 cell.className = "stock_data";
@@ -339,6 +336,7 @@ function appendRow(data, row, headers) {
                 row.appendChild(cell);
             }
             else {
+                //Creates row normally
                 let cell = document.createElement('td');
                 cell.className = "stock_data";
                 let textNode = document.createTextNode(data[0][headers[k]]);
@@ -389,12 +387,14 @@ function sortTable() {
 Card function is a simple function to create cards in the *card_container* div by fetching data from mongoDB through the API. 
 ```c
 function card() {
+    //Locate the container to contain the card 
     let container = document.querySelector('#card_container');
     let h1 = document.createElement('h1');
     let text = document.createTextNode("Popular Data")
     h1.className = "title";
     h1.appendChild(text);
     container.appendChild(h1);
+    //Fetch API URL for JSON data 
     fetch('http://localhost:5000/stockslist').then(result => {
         return result.json();
     })
@@ -406,25 +406,31 @@ function card() {
 GenerateRow is a function to simplify the code in the card function where it loops through the stock that is available and create the card and href accordingly.
 ```c
 function generateRow(container, stock) {
+    let data = ["AMZN", "AAPL", "BABA", "FB", "NFLX", "GME", "GOOG", "IBM", "ORCL", "TSLA"];
     var count = 0;
     let row = document.createElement("div");
     row.className = "row_container";
     container.appendChild(row);
+    //loop through stocks and create cards
     for (i = 0; i < stock.length; i++) {
-        let column = document.createElement('div');
-        column.className = "column";
-        row.appendChild(column);
-        let card = document.createElement('div');
-        card.className = "card";
-        let a = document.createElement('a');
-        a.href = "http://127.0.0.1:5500/data.html?name=" + stock[i];
-        let textNode = document.createTextNode(stock[i]);
-        a.appendChild(textNode);
-        card.appendChild(a);
-        column.appendChild(card);
-        container.appendChild(row);
+        for (k = 0; k < data.length; k++) {
+            if(stock[i].localeCompare(data[k])== 0){
+                let column = document.createElement('div');
+                column.className = "column";
+                row.appendChild(column);
+                let card = document.createElement('div');
+                card.className = "card";
+                let a = document.createElement('a');
+                //href for data.html
+                a.href = "http://127.0.0.1:5500/data.html?name=" + stock[i];
+                let textNode = document.createTextNode(stock[i]);
+                a.appendChild(textNode);
+                card.appendChild(a);
+                column.appendChild(card);
+                container.appendChild(row);
+            }
+        }
     }
-
 }
 ```
 
@@ -436,6 +442,7 @@ For HistoricalTable function, both the href for twitter and reddit is created al
 
 ```c
 //Creating HistoricalTable
+//Creating HistoricalTable
 function HistoricalTable(stock) {
     let menu = document.querySelector('#menu_container');
     //Twitter Menu
@@ -446,25 +453,24 @@ function HistoricalTable(stock) {
     const urlParams = new URLSearchParams(window.location.search);
     const redirect = urlParams.get('name');
     let a = document.createElement('a');
-    a.href = "http://127.0.0.1:5500/twitter.html?name=" + redirect ;
+    a.href = "http://127.0.0.1:5500/twitter.html?name=" + redirect;
     let textNode = document.createTextNode("Twitter");
     a.appendChild(textNode);
     li.appendChild(a);
     ul.appendChild(li);
-
     //Reddit Menu
     let li1 = document.createElement('li');
     li1.className = "menu_item";
     let a1 = document.createElement('a');
-    a1.href = "http://127.0.0.1:5500/reddit.html?name=" + redirect ;
+    a1.href = "http://127.0.0.1:5500/reddit.html?name=" + redirect;
     let textNode1 = document.createTextNode("Reddit");
     a1.appendChild(textNode1);
     li1.appendChild(a1);
     ul.appendChild(li1);
     menu.appendChild(ul);
-
     //Create Table
     let myTable = document.querySelector('#data_table');
+    //Fetch API URL for JSON data 
     fetch('http://localhost:5000/stocks/' + stock).then(result => {
         return result.json();
     })
@@ -481,11 +487,11 @@ GenerateHTableHead creates the table headers by looping through the *headers* an
 ```c
 //Generate Headers
 function generateHTableHead(table, data, headers) {
+    //Creating Table Header
     let thead = table.createTHead();
     thead.className = "data_head";
     let row = thead.insertRow();
     row.className = "data_header"
-
     headers.forEach(headerText => {
         let header = document.createElement('th');
         header.className = "data_header";
@@ -494,7 +500,7 @@ function generateHTableHead(table, data, headers) {
         header.appendChild(textNode);
         row.appendChild(header);
     });
-
+    //Creating Table Body
     let tbody = table.createTBody();
     tbody.className = "data_body";
     for (i = 0; i < data.length; i++) {  //For Loop for Row
@@ -511,8 +517,11 @@ AppendHRow function is used to loop through the *data* keys along with condition
 ```c
 //Append Rows
 function appendHRow(data, row, headers) {
+    //Loop through the length of data Keys 
     for (j = 0; j < Object.keys(data[i]).length; j++) {
+        //Compare and check whether key and header matches 
         if (Object.keys(data[i])[j].localeCompare(headers[k]) == 0) {
+            //If Key is equal to Date, Convert Date Format
             if (Object.keys(data[i])[j] == "Date") {
                 let cell = document.createElement('td');
                 cell.className = "d_data";
@@ -543,11 +552,13 @@ function getDateFromAspNetFormat(date) {
 ```
 GetLabel function help retrieve *stock data*'s date by looping through the *data* and pushing the *date* into a array that will be returned. 
 ```c
-//Get Labels for graph plotting
+//Get Labels for Plotting Graph
 function getLabel() {
+    //Get Parameter from URL
     const urlParams = new URLSearchParams(window.location.search);
     const stock = urlParams.get('name');
     const label = [];
+    //Fetch API URL for JSON data 
     fetch('http://localhost:5000/stocks/' + stock).then(result => {
         return result.json();
     })
@@ -555,13 +566,13 @@ function getLabel() {
             parsed = JSON.parse(data);
             for (i = parsed.length; i > 0; i--) {
                 let date = new Date(getDateFromAspNetFormat(parsed[i - 1].Date.$date));
+                //Change Date format to custom format
                 var today = date;
                 var dd = today.getDate();
                 var mm = today.getMonth() + 1;
                 if (dd < 10) {
                     dd = '0' + dd;
                 }
-
                 if (mm < 10) {
                     mm = '0' + mm;
                 }
@@ -569,30 +580,60 @@ function getLabel() {
                 label.push(today);
             }
         })
-    console.log(label);
     return label;
-
+}
 }
 ```
 
-### 2.2.5.3 Twitter.HTML and Reddit.HTML
+### 2.2.5.3 Twitter.HTML
+
+For Twitter.html, it will display tweets that is based on the URL parameter that is thrown. With that parameter, the function will take the parameter and display a limited amount of tweets in the tweet container. 
 
 ```c
+//Twitter.html
 function tweetPageGenerator() {
-    document.getElementById('tweet_title').innerHTML = "Tweets on + Insert Name of Stock";
+    //Get URL Parameter 
+    const urlParams = new URLSearchParams(window.location.search);
+    const stock = urlParams.get('name');
+    document.getElementById('tweet_title').innerHTML = "Tweets on " + stock;
+    let menu = document.querySelector('#menu_container');
+    //Twitter Menu
+    let ul = document.createElement('ul');
+    ul.className = "menu_list";
+    let li = document.createElement('li');
+    li.className = "menu_item";
+    let a = document.createElement('a');
+    a.href = "http://127.0.0.1:5500/data.html?name=" + stock;
+    let textNode = document.createTextNode("Data");
+    a.appendChild(textNode);
+    li.appendChild(a);
+    ul.appendChild(li);
+    //Reddit Menu
+    let li1 = document.createElement('li');
+    li1.className = "menu_item";
+    let a1 = document.createElement('a');
+    a1.href = "http://127.0.0.1:5500/reddit.html?name=" + stock;
+    let textNode1 = document.createTextNode("Reddit");
+    a1.appendChild(textNode1);
+    li1.appendChild(a1);
+    ul.appendChild(li1);
+    menu.appendChild(ul);
     let box = document.querySelector('#tweet_box'); //append last
-    fetch('http://localhost:3000/twitter').then(result => {
+    //Fetch Data from URL generated by API
+    fetch('http://localhost:5000/twitter/' + stock).then(result => {
         return result.json();
     })
         .then(data => {
-            GenerateTweet(box, data);
+            parsed = JSON.parse(data)
+            GenerateTweet(box, parsed);
         })
 }
 ```
-
+Generate Tweet function will loop through the data and append the tweets into the *div*.
 ```c
 function GenerateTweet(box, data) {
-    for (i = 0; i < data.length; i++) {
+    //Loop and Generate tweets 
+    for (i = 0; i < 50; i++) {
         let entry = document.createElement('div');
         entry.className = "tweetEntry";
         entry.id = "tweetEntry";
@@ -601,12 +642,13 @@ function GenerateTweet(box, data) {
         a.className = "tweetEntry-account-group";
         let time = document.createElement('span');
         time.className = "tweetEntry-timestamp";
-        time.innerHTML = data[i].timestamp;
+        var date = new Date(getDateFromAspNetFormat(data[i].tweet_created.$date));
+        time.innerHTML = date;
         a.appendChild(time);
         entry.appendChild(a);
         let text = document.createElement('div');
         text.className = "tweetEntry-text-container";
-        text.innerHTML = data[i].content;
+        text.innerHTML = data[i].tweet_text;
         entry.appendChild(text);
     }
 }
