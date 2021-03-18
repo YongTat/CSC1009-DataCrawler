@@ -92,7 +92,6 @@ class Twitter(Resource):
             data = db[handle]
             json_return = list(data.find().sort("Date",-1).limit(100))
             return dumps(json_return)
-        pass
 
 # Code to run when /reddit/ticker is ran
 class Reddit(Resource):
