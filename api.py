@@ -39,18 +39,26 @@ class Stock(Resource):
             new_collection = db[ticker]
 
             #crawl stock
-            collecter_stocks = YFinanceCrawler(ticker)
-
-            #crawl industries stock
-            # software_services/ hardware_electronics/ business_services
-            collecter_Industries = YFinanceCrawler(ticker)
+            collecter = StockCrawler.YFinanceCrawler(ticker)
 
             # fetch and insert data
-            data_stocks = collecter_stocks.getHistoricalData()
+            #data = collecter.GetData()
+            data = collecter.getHistoricalData()
 
-            collecter_Industries.getIndustriesStockData(db)
+            if len(data) != 0:
+                new_collection.insert_many(data)
+                print("Data inserted into database")
 
-            new_collection.insert_many(data_stocks)
+            if lens(data) == 0:
+                print("check industries")
+                #crawl industries stock
+                # software_services/ hardware_electronics/ business_services
+                collecter_Industries = StockCrawler.YFinanceCrawler(ticker)
+
+                data = collecter_Industries.getIndustriesStockData(db)
+
+            
+
         finally:
             # get all documents
             data = db[ticker]
