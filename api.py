@@ -25,15 +25,10 @@ client = pymongo.MongoClient("mongodb+srv://{}:{}@cluster0.vk8mu.mongodb.net/myF
 #stock Industries
 # stockIndustries = ["energy",
 #                     # "financial",
-#                     # "healthcare",
 #                     # "business_services",
 #                     # "telecom_utilities",
 #                     # "hardware_electronics",
 #                     # "software_services",
-#                     # "manufacturing_materials",
-#                     # "consumer_products_media",
-#                     # "industrials",
-#                     # "diversified_business",
 #                     "retailing_hospitality"]
 
 # Code to run when /stocks/ticker is ran
@@ -50,27 +45,28 @@ class Stock(Resource):
             # create new collection
             print("Creating New Collection")
             new_collection = db[ticker]
-            collecter = StockGetter(ticker)
+            #collecter = StockGetter(ticker)
+
+            #crawl stock
+            collecter_stocks = StockCrawler.YFinanceCrawler(ticker)
+
+            #crawl industries stock
+            # software_services/ hardware_electronics/ business_services
+            collecter_Industries = StockCrawler.YFinanceCrawler(ticker)
+
             # fetch and insert data
-            data = collecter.GetData()
-            new_collection.insert_many(data)
+            #data = collecter.GetData()
+            data_stocks = collecter_stocks.getHistoricalData()
+
+            data_Industries = collecter_Industries.getIndustriesStockData(db)
+
+            new_collection.insert_many(data_stocks)
+            new_collection.insert_many(data_Industries)
         finally:
             # get all documents
             data = db[ticker]
             json_return = list(data.find().sort("Date",-1).limit(100))
             return dumps(json_return)
-
-    #Code to Crawl Historical data for Top Stock / Stocks from diff area/industries
-    def crawl(self):
-        # crawl stock
-        data = StockCrawler.YFinanceCrawler("AMZN")
-        data = data.getHistoricalData()
-        # return AMZN historical data
-
-        # crawl industries stock
-        # software_services/ hardware_electronics/ business_services
-        industryData = StockCrawler.YFinanceCrawler("software_services")
-        industryData = industryData.getIndustriesStockData()
     
 class StocksList(Resource):
     def get(self):
