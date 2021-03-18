@@ -7,7 +7,6 @@ from flask_cors import CORS
 import pymongo
 from bson.json_util import dumps
 # import python module from teams mates below here
-from YongTat_YFinance import StockGetter
 from CheeMeng_yFinanceCrawler import YFinanceCrawler
 from Jielin_twitterCrawler import crawlTweets
 
@@ -39,10 +38,9 @@ class Stock(Resource):
             new_collection = db[ticker]
 
             #crawl stock
-            collecter = StockCrawler.YFinanceCrawler(ticker)
+            collecter = YFinanceCrawler(ticker)
 
             # fetch and insert data
-            #data = collecter.GetData()
             data = collecter.getHistoricalData()
 
             if len(data) != 0:
@@ -56,9 +54,6 @@ class Stock(Resource):
                 collecter_Industries = StockCrawler.YFinanceCrawler(ticker)
 
                 data = collecter_Industries.getIndustriesStockData(db)
-
-            
-
         finally:
             # get all documents
             data = db[ticker]
