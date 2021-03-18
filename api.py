@@ -8,7 +8,7 @@ import pymongo
 from bson.json_util import dumps
 # import python module from teams mates below here
 from YongTat_YFinance import StockGetter
-import CheeMeng_CrawlerClasses as YFinanceCrawler
+import CheeMeng_CrawlerClasses as StockCrawler
 
 # init flask app / api
 app = Flask(__name__)
@@ -62,13 +62,15 @@ class Stock(Resource):
 
     #Code to Crawl Historical data for Top Stock / Stocks from diff area/industries
     def crawl(self):
-        # retrieve existing stock names from dababase
-        db = YFinanceCrawler.connectionToMongoDB("stock")
-        db = db.getCurrentDb()
-        existing_list = db.list_collection_names
+        # crawl stock
+        data = StockCrawler.YFinanceCrawler("AMZN")
+        data = data.getHistoricalData()
+        # return AMZN historical data
 
-        YFinanceCrawler.crawlTopStock(db, existing_list)
-        YFinanceCrawler.crawlIndustryStocks(db, existing_list)
+        # crawl industries stock
+        # software_services/ hardware_electronics/ business_services
+        industryData = StockCrawler.YFinanceCrawler("software_services")
+        industryData = industryData.getIndustriesStockData()
     
 class StocksList(Resource):
     def get(self):
