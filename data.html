@@ -21,14 +21,10 @@
     <h1 class="title">Historical Data</h1>
     <!-- Nagivation for Historical Data, Twitter, Reddit -->
     <div class="menu_container" id="menu_container">
-      <!-- <ul class="menu_list">
-        <li class="menu_item"><a href="reddit.html" >Reddit</a></li>
-        <li class="menu_item"><a href="twitter.html" >Twitter</a></li>
-      </ul> -->
     </div>
     <canvas id="myChart" width="400" height="400"></canvas>
     <script>
-      const values = getOpenData();
+      const values =[];
       const labels = getLabel();
       chartIt();
 

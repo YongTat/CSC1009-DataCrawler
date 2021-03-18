@@ -38,7 +38,7 @@ function stockTable() {
             myTable.appendChild(table);
         })
 }
-
+//Generate Table headers 
 function generateSTableHead(table, stock, headers) {
     let selected = [];
     let thead = table.createTHead();
@@ -81,7 +81,7 @@ function generateSTableHead(table, stock, headers) {
             })
     }
 }
-
+//Append Rows into the Table
 function appendRow(data, row, headers) {
     for (j = 0; j < Object.keys(data[i]).length; j++) {
         if (Object.keys(data[0])[j].localeCompare(headers[k]) == 0) {
@@ -103,7 +103,7 @@ function appendRow(data, row, headers) {
         }
     }
 }
-
+//Sort Table 
 function sortTable() {
     var table, rows, switching, i, x, y, shouldSwitch;
     table = document.getElementById('stockTable');
@@ -138,7 +138,7 @@ function sortTable() {
         }
     }
 }
-
+//Generate Card
 function card() {
     let container = document.querySelector('#card_container');
     let h1 = document.createElement('h1');
@@ -153,7 +153,6 @@ function card() {
             generateRow(container, data);
         })
 }
-
 //For Generating Card Row
 function generateRow(container, stock) {
     var count = 0;
@@ -178,6 +177,7 @@ function generateRow(container, stock) {
 }
 
 //Data.HTML
+//Creating HistoricalTable
 function HistoricalTable(stock) {
     let menu = document.querySelector('#menu_container');
     //Twitter Menu
@@ -218,7 +218,7 @@ function HistoricalTable(stock) {
             myTable.appendChild(table);
         })
 }
-
+//Generate Headers
 function generateHTableHead(table, data, headers) {
     let thead = table.createTHead();
     thead.className = "data_head";
@@ -245,7 +245,7 @@ function generateHTableHead(table, data, headers) {
         table.appendChild(row);
     }
 }
-
+//Append Rows
 function appendHRow(data, row, headers) {
     for (j = 0; j < Object.keys(data[i]).length; j++) {
         if (Object.keys(data[i])[j].localeCompare(headers[k]) == 0) {
@@ -267,31 +267,13 @@ function appendHRow(data, row, headers) {
         }
     }
 }
-
+//Covert Date format
 function getDateFromAspNetFormat(date) {
     const re = /-?\d+/;
     const m = re.exec(date);
     return parseInt(m[0], 10);
 }
-
-function getOpenData() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const stock = urlParams.get('name');
-    const values = [];
-    fetch('http://localhost:5000/stocks/' + stock).then(result => {
-        return result.json();
-    })
-        .then(data => {
-            let value = [];
-            parsed = JSON.parse(data);
-            for (i = 0; i < parsed.length; i++) {
-                values.push(parsed[i].Open);
-            }
-        })
-    console.log(values);
-    return values;
-}
-
+//Get Labels for Plotting Graph
 function getLabel() {
     const urlParams = new URLSearchParams(window.location.search);
     const stock = urlParams.get('name');
