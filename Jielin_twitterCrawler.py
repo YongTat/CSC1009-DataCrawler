@@ -49,7 +49,7 @@ class crawlTweets():
         alltweets.extend(new_tweets)
 
         #to check if the user has tweets
-        if len(alltweets) ==0:
+        if len(alltweets) == 0:
             return alltweets
         else:    
             #save the id of the oldest tweet less one

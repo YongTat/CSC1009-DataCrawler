@@ -104,8 +104,7 @@ class connectionToMongoDB(getDatabaseName):
         with open("config.txt", "r") as f:
             for line in f:
                 login.append(line.strip())
-        client = 
-            pymongo.MongoClient("mongodb+srv://{}:{}@cluster0.vk8mu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority".format(login[0],login[1]))
+        client = pymongo.MongoClient("mongodb+srv://{}:{}@cluster0.vk8mu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority".format(login[0],login[1]))
 
         # Connect to stocks database
         db = client[self.database]        
