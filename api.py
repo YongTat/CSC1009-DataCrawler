@@ -8,7 +8,7 @@ import pymongo
 from bson.json_util import dumps
 # import python module from teams mates below here
 from YongTat_YFinance import StockGetter
-# import CheeMeng_CrawlerClasses as YFinanceCrawler
+from CheeMeng_yFinanceCrawler import YFinanceCrawler
 from Jielin_twitterCrawler import crawlTweets
 
 # init flask app / api
@@ -40,7 +40,7 @@ class Stock(Resource):
             #collecter = StockGetter(ticker)
 
             # crawl stock
-            collecter = StockCrawler.YFinanceCrawler(ticker)
+            collecter = YFinanceCrawler(ticker)
 
             # fetch and insert data
             #data = collecter.GetData()
@@ -57,7 +57,7 @@ class Stock(Resource):
                 print("check industries")
                 #crawl industries stock
                 # software_services/ hardware_electronics/ business_services
-                collecter_Industries = StockCrawler.YFinanceCrawler(ticker)
+                collecter_Industries = YFinanceCrawler(ticker)
 
                 data = collecter_Industries.getIndustriesStockData(db)
 
