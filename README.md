@@ -227,3 +227,32 @@ Then, we will check if the current stock is existing in the database. If current
 
 ### Cheemeng_YF_UnitTesting.py
 #### Unit Testing for Yahoo Finance Crawler
+```C
+import YfinanceCrawler as yfClasses
+import unittest
+import validators
+
+def main():
+    ########Test inputs for getParser()########
+
+    # Test if url is valid
+    invalidUrl = "asdfasdf"
+    validUrl = "https://sg.finance.yahoo.com/industries/energy"
+    testParser = yfClasses.YFinanceCrawler("")
+
+    # Invalid url
+    print(invalidUrl)
+    testParser_invalid = testParser.getParser(invalidUrl)
+
+    # Valid url
+    print()
+    print(validUrl)
+    testParser_valid = testParser.getParser(validUrl)
+
+    # testHistoricalData = yfClasses.YFinanceCrawler(symbol)
+
+
+if __name__ == "__main__":
+    main()
+```
+This is the unit testing for Yahoo Finance Crawler, it will insert invalid and valid url and create the object. If the url is invalid, it will prompt error message.
