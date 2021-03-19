@@ -20,7 +20,7 @@ pip install praw
 pip install pymongo
 ```
 
-## 3.2 Functionalities of Yahoo Finance Crawler
+## 3.2 Functionalities of Reddit Crawler
 ---
 ### Cheemeng_yFinanceCrawler.py
 
