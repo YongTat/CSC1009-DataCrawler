@@ -55,8 +55,7 @@ c. Click on "create app"
 
 5. Transfer authentication details to your code
 ```C
-reddit = praw.Reddit(client_id='Enter client_id here',
-                     client_secret='Enter secret here', user_agent='Enter user_agent here')
+reddit = praw.Reddit(client_id='Enter client_id here', client_secret='Enter secret here', user_agent='Enter user_agent here')
 ```
 ![image](https://user-images.githubusercontent.com/30068705/111769789-934ab580-88e4-11eb-96ee-3c83c984aa12.png)
 
