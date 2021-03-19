@@ -98,14 +98,16 @@ class Twitter(Resource):
 
 # Code to run when /reddit/ticker is ran
 class Reddit(Resource):
-    # connect to reddit database
-    db = client["reddit"]
-    pass
+    def get(self, subreddit):
+        db = client["reddit"]
+        data = db[subreddit]
+        json_return = list(data.find().sort("Date",-1).limit(100))
+        return dumps(json_return)
 
 api.add_resource(Stock, "/stocks/<string:ticker>")
 api.add_resource(StocksList, "/stockslist")
 api.add_resource(Twitter, "/twitter/<string:handle>")
-api.add_resource(Reddit, "/reddit/<string:user>")
+api.add_resource(Reddit, "/reddit/<string:subreddit>")
 
 if __name__ == '__main__':
     app.run(debug=True)
