@@ -32,5 +32,7 @@ import pymongo
 ```
 The program will need 3 imported libraries. 
 > datetime: To convert the value retrieved from the object into date & time.
+
 > praw: The API that will be used to retrieve posts from reddit.
+
 > pymongo: This is needed to establish a connection with MongoDB so that we can insert our Reddit posts.
