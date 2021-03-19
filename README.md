@@ -14,13 +14,13 @@ For Reddit Crawler, there are some libraries needed to start.
 ```C
 pip install praw
 ```
-2. Install pymongo library. Run this command in command prompt
+2. Install pymongo. Run this command in command prompt
 
 ```C
 pip install pymongo
 ```
 
-## 3.2 Functionalities of Reddit Crawler
+## 5.2 Functionalities of Reddit Crawler
 ---
 ### RedditCrawler.py
 
@@ -30,3 +30,7 @@ from datetime import datetime
 import praw
 import pymongo
 ```
+The program will need 3 imported libraries. 
+> datetime: To convert the value retrieved from the object into date & time.
+> praw: The API that will be used to retrieve posts from reddit.
+> pymongo: This is needed to establish a connection with MongoDB so that we can insert our Reddit posts.
