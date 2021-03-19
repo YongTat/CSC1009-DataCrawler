@@ -36,3 +36,18 @@ The program will need 3 imported libraries.
 > praw: The API that will be used to retrieve posts from reddit.
 
 > pymongo: This is needed to establish a connection with MongoDB so that we can insert our Reddit posts.
+
+#### 2. Authentication
+```C
+reddit = praw.Reddit(client_id='Enter 'client_id' here',
+                     client_secret='Enter 'secret' here', user_agent='Enter 'user_agent' here')
+```
+Before we start, we need authentication to allow our crawler to roam through reddit and retrieve posts from subreddits. To do this:
+1. Create/Login to your reddit account
+2. Go and create a Reddit instance [HERE](https://www.reddit.com/prefs/apps)
+3. Click on "create another app"
+
+![image](https://user-images.githubusercontent.com/30068705/111768122-7ad99b80-88e2-11eb-90bc-e9c95f6f652e.png)
+
+4. Enter whatever you want for the name and description(Ex. Name: RedditCrawler 
+
