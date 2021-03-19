@@ -38,10 +38,6 @@ The program will need 3 imported libraries.
 > pymongo: This is needed to establish a connection with MongoDB so that we can insert our Reddit posts.
 
 #### 2. Authentication
-```C
-reddit = praw.Reddit(client_id='Enter 'client_id' here',
-                     client_secret='Enter 'secret' here', user_agent='Enter 'user_agent' here')
-```
 Before we start, we need authentication to allow our crawler to roam through reddit and retrieve posts from subreddits. To do this:
 1. Create/Login to your reddit account
 2. Go and create a Reddit instance [HERE](https://www.reddit.com/prefs/apps)
@@ -51,9 +47,16 @@ Before we start, we need authentication to allow our crawler to roam through red
 
 4. Enter details
 ```C
-Fill up the name and description with what you want(Ex. Name: RedditCrawler, Description: Testing)
-For redirect uri, enter: http://localhost:8080
+a. Fill up the name and description with whatever you want to name it.
+b. For redirect uri, enter: http://localhost:8080
+c. Click on "create app"
 ```
 ![image](https://user-images.githubusercontent.com/30068705/111768936-8bd6dc80-88e3-11eb-967c-2ccf5101ef3b.png)
 
+5. Transfer authentication details to your code
+```C
+reddit = praw.Reddit(client_id='Enter 'client_id' here',
+                     client_secret='Enter 'secret' here', user_agent='Enter 'user_agent' here')
+```
+![image](https://user-images.githubusercontent.com/30068705/111769789-934ab580-88e4-11eb-96ee-3c83c984aa12.png)
 
