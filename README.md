@@ -3,7 +3,7 @@ CSC1009 Data Crawler Group Project
 
 # 5. Reddit crawler
 
-Yahoo Finance Crawler is a program that will automatically search stocks on Yahoo Finance. It will crawl historical data for specific stocks from yahoo finance website. Other than that, It also can crawl based on stocks in different areas of industries. This crawler will also automatically create new stock in the database when it has new stock. After crawling historical data, the program will store these data into the MongoDb database automatically.
+The Reddit crawler is a program used to retrieve posts from Reddit based on the subreddit entered. It can also be filtered based on the relevance(hot, top) as well time(day,week,month). After retrieving the posts, it will insert the date, title, and contents of each post into the database.
 
 ## 5.1 Prerequisites
 ---
