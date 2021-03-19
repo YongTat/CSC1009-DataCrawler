@@ -18,7 +18,7 @@
   .title::before
 {
   content:'';
-  background: #7B1798;
+  background: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
   height: 5px;
   width: 200px;
   margin-left: auto;
@@ -364,6 +364,10 @@
   margin-left:auto;
   margin-right:auto;
 }
+#data_table{
+  margin-top: 50px;
+}
+
 .data_table {
   border: 0px solid #ccc;
   border-collapse: collapse;
