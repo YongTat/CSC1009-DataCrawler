@@ -59,3 +59,30 @@ reddit = praw.Reddit(client_id='Enter client_id here', client_secret='Enter secr
 ```
 ![image](https://user-images.githubusercontent.com/30068705/111769789-934ab580-88e4-11eb-96ee-3c83c984aa12.png)
 
+#### 3. Find subreddit function
+1. Find the hot 20 posts from Reddit
+```C
+def find_subreddit_hot(name):
+    subrdt = reddit.subreddit(name).hot(limit=20)
+    return subrdt
+```
+2. Find the top 20 posts of the day from Reddit
+```C
+def find_subreddit_top_day(name):
+    subrdt = reddit.subreddit(name).top(time_filter='day', limit=20)
+    return subrdt
+```
+3. Find the top 20 posts of the week from Reddit
+```C
+def find_subreddit_top_week(name):
+    subrdt = reddit.subreddit(name).top(time_filter='week', limit=20)
+    return subrdt
+```
+4. Find the top 20 posts of the month from Reddit
+```C
+def find_subreddit_top_month(name):
+    subrdt = reddit.subreddit(name).top(time_filter='month', limit=20)
+    return subrdt
+```
+
+These functions allow you to find 20 posts based from the hot or top of the day/week/month page. You can also change the time filters to year or all for the all time top posts. You can also get the newest posts as well depending on what you want. You can research more on PRAW [here](https://praw.readthedocs.io/en/latest/)
