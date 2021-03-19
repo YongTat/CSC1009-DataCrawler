@@ -85,4 +85,17 @@ def find_subreddit_top_month(name):
     return subrdt
 ```
 
-These functions allow you to find 20 posts based from the hot or top of the day/week/month page. You can also change the time filters to year or all for the all time top posts. You can also get the newest posts as well depending on what you want. You can research more on PRAW [here](https://praw.readthedocs.io/en/latest/)
+These functions allow you to find 20 posts based from the hot or top of the day/week/month page. You can also change the time filters to year or all for the all time top posts. You can also get the newest posts as well depending on what you want. You can research more on PRAW [here](https://praw.readthedocs.io/en/latest/).
+
+#### 4. Add to database function
+1.This function allows you insert the date, title and body of the posts into the collection.
+```
+def add_db(subreddit, col):
+    mylist = []
+    for post in subreddit:
+        doc = {"Date": str(datetime.fromtimestamp(post.created)), "Title": post.title, "Post": post.selftext}
+        mylist.append(doc.copy())
+    col.insert_many(mylist)
+```
+By creating an empty list, I will loop the entire list generator and add the date, title, and post into a dictionary and then add that dictionary into the list. The loop will go through all Reddit objects and at the end, I will have the list of all posts containing their date, title and body. This list will then be added into the collection of the database.
+
