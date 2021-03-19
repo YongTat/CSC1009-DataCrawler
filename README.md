@@ -49,5 +49,11 @@ Before we start, we need authentication to allow our crawler to roam through red
 
 ![image](https://user-images.githubusercontent.com/30068705/111768122-7ad99b80-88e2-11eb-90bc-e9c95f6f652e.png)
 
-4. Enter whatever you want for the name and description(Ex. Name: RedditCrawler 
+4. Enter details
+```C
+Fill up the name and description with what you want(Ex. Name: RedditCrawler, Description: Testing)
+For redirect uri, enter: http://localhost:8080
+```
+![image](https://user-images.githubusercontent.com/30068705/111768936-8bd6dc80-88e3-11eb-967c-2ccf5101ef3b.png)
+
 
