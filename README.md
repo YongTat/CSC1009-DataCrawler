@@ -99,3 +99,15 @@ def add_db(subreddit, col):
 ```
 By creating an empty list, I will loop the entire list generator and add the date, title, and post into a dictionary and then add that dictionary into the list. The loop will go through all Reddit objects and at the end, I will have the list of all posts containing their date, title and body. This list will then be added into the collection of the database.
 
+#### 5. Calling the functions
+Now with the functions assembled. We can finally retrieve the posts and add them into our database.
+1. Retrieving the posts
+```C
+stocks_posts_hot = find_subreddit_hot("Stocks")
+stocks_posts_day = find_subreddit_top_day("Stocks")
+stocks_posts_week = find_subreddit_top_week("Stocks")
+stocks_posts_month = find_subreddit_top_month("Stocks")
+```
+This will get me the 20 posts from hot, top of day/week/month.
+
+2. 
