@@ -102,7 +102,7 @@ def add_db(subreddit, col):
         mylist.append(doc.copy())
     col.insert_many(mylist)
 ```
-By creating an empty list, I will loop the entire list generator and add the date, title, and post into a dictionary and then add that dictionary into the list. The loop will go through all Reddit objects and at the end, I will have the list of all posts containing their date, title and body. This list will then be added into the collection of the database.
+By creating an empty list, it will loop the entire listing of posts and add the date, title, and post into a dictionary and then add that dictionary into the list. The loop will go through all Reddit objects and at the end, it will have the list of all posts containing their date, title and body. This list will then be inserted into the collection of the database.
 
 
 #### 5. Calling the functions
