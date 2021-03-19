@@ -43,6 +43,7 @@ Before we start, we need authentication to allow our crawler to roam through red
 2. Go and create a Reddit instance [HERE](https://www.reddit.com/prefs/apps)
 3. Click on "create another app"
 
+
 ![image](https://user-images.githubusercontent.com/30068705/111768122-7ad99b80-88e2-11eb-90bc-e9c95f6f652e.png)
 
 4. Enter details
@@ -58,6 +59,9 @@ c. Click on "create app"
 reddit = praw.Reddit(client_id='Enter client_id here', client_secret='Enter secret here', user_agent='Enter user_agent here')
 ```
 ![image](https://user-images.githubusercontent.com/30068705/111769789-934ab580-88e4-11eb-96ee-3c83c984aa12.png)
+
+You now can start crawling from reddit.
+
 
 #### 3. Find subreddit function
 1. Find the hot 20 posts from Reddit
@@ -87,6 +91,7 @@ def find_subreddit_top_month(name):
 
 These functions allow you to find 20 posts based from the hot or top of the day/week/month page. You can also change the time filters to year or all for the all time top posts. You can also get the newest posts as well depending on what you want. You can research more on PRAW [here](https://praw.readthedocs.io/en/latest/).
 
+
 #### 4. Add to database function
 1.This function allows you insert the date, title and body of the posts into the collection.
 ```
@@ -99,6 +104,7 @@ def add_db(subreddit, col):
 ```
 By creating an empty list, I will loop the entire list generator and add the date, title, and post into a dictionary and then add that dictionary into the list. The loop will go through all Reddit objects and at the end, I will have the list of all posts containing their date, title and body. This list will then be added into the collection of the database.
 
+
 #### 5. Calling the functions
 Now with the functions assembled. We can finally retrieve the posts and add them into our database.
 1. Retrieving the posts
@@ -108,6 +114,35 @@ stocks_posts_day = find_subreddit_top_day("Stocks")
 stocks_posts_week = find_subreddit_top_week("Stocks")
 stocks_posts_month = find_subreddit_top_month("Stocks")
 ```
-This will get me the 20 posts from hot, top of day/week/month.
+This will get you the 20 posts from hot, top of day/week/month.
 
-2. 
+2. Connect to database
+```C
+# Create connect to MongoDB
+client = connectionToMongoDB("reddit")
+client = client.getCurrentDb()
+
+# Create database
+db = client["reddit"]
+```
+Connect to your database using your client connection and create a database.
+
+3. Create your collections
+```C
+# Create collections
+S_Col_hot = db["Stocks_hot"]
+S_Col_top_day = db["Stocks_day"]
+S_Col_top_week = db["Stocks_week"]
+S_Col_top_month = db["Stocks_month"]
+```
+This will create the collections for you to insert your data into.
+
+4. Finally to add your data into the database
+```C
+# Add into database
+add_db(stocks_posts_hot, S_Col_hot)
+add_db(stocks_posts_day, S_Col_top_day)
+add_db(stocks_posts_week, S_Col_top_week)
+add_db(stocks_posts_month, S_Col_top_month)
+```
+This will call the add_db() function that will retrieve the date, title, and post from each object in the list generator and add them into a list. The list is then inserted into the collection. Thus your data is now in the database.
