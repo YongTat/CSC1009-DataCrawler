@@ -15,13 +15,13 @@ The flask modules are use to run the API server and Pymongo is for the database 
 
 ## 1.2 Mongo Database
 
-![](Database Diagram.jpg)
+![Database Image](https://imgur.com/a/o3TEpnE)
 
 For this project we are using Mongo as our database, inside the main cluster 3 separate databases are created each database will house the collections that houses the documents which is the individual pieces of data.
 
 The stocks database will have collections with names corresponding to their respective stock tickers for example data from Amazon will be store in the collection "AMZN" and each day's data is store inside as documents in the following format
 
-```json
+```
 {
 	_id:<Unique and Randomly Generated>
 	Date: <Date Object>
@@ -35,7 +35,7 @@ The stocks database will have collections with names corresponding to their resp
 
 The twitter database will have collections name same as the stocks that it represents for example tweets from Amazon will be kept inside the "AMZN" collection. Data is store in the following format
 
-```json
+```
 {
 	_id:<Unique and Randomly Generated>
 	tweet_text: <String>
