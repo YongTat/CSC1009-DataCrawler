@@ -1,6 +1,291 @@
 # CSC1009-DataCrawler
 CSC1009 Data Crawler Group Project
 
+# 1. RESTful API Server and Database
+
+## 1.1 Prerequisites
+
+For the RESTful API server, this will be hosted locally and use Flask as a core, the required install packages for python are as follows:
+
+```
+pip install Flask Flask-Cors Flask-RESTful Pymongo
+```
+
+The flask modules are use to run the API server and Pymongo is for the database connection.
+
+## 1.2 Mongo Database
+
+![](Database Diagram.jpg)
+
+For this project we are using Mongo as our database, inside the main cluster 3 separate databases are created each database will house the collections that houses the documents which is the individual pieces of data.
+
+The stocks database will have collections with names corresponding to their respective stock tickers for example data from Amazon will be store in the collection "AMZN" and each day's data is store inside as documents in the following format
+
+```json
+{
+	_id:<Unique and Randomly Generated>
+	Date: <Date Object>
+	Open: <Float>
+	High: <Float>
+	Low: <Float>
+	Close: <Float>
+	Volume: <Int>
+}
+```
+
+The twitter database will have collections name same as the stocks that it represents for example tweets from Amazon will be kept inside the "AMZN" collection. Data is store in the following format
+
+```json
+{
+	_id:<Unique and Randomly Generated>
+	tweet_text: <String>
+	tweet_createed: <Date Object>
+}
+```
+
+The reddit database is as follows.
+
+```
+{
+	_id:<Unique and Randomly Generated>
+	Date: <Date Object>
+	Post: <String>
+	Url: <String>
+}
+```
+
+The reason why the data is kept in separated database is to have a better segregation of data and improve search time. As when you put all the different data inside the same collection as different document, when you want a particular data from a certain stock you will have to filter through all the documents inside the database and for a large dataset that will take a lot longer
+
+## 1.3 API Server
+
+For the backend of this project, a RESTful API was built on flask using python. Below is the initial API skeleton used with a simple example provided for my team to see how their class was going to be used.
+
+```python
+from flask import Flask, request
+from flask_restful import Resource,Api
+import pymongo
+from bson.json_util import dumps
+# import python module from teams mates below here
+from YongTat_YFinance import StockGetter
+
+# init flask app / api
+app = Flask(__name__)
+api = Api(app)
+
+# Login Variables
+login = []
+with open("config.txt", "r") as f:
+    for line in f:
+        login.append(line.strip())
+client = pymongo.MongoClient("mongodb+srv://{}:{}@cluster0.vk8mu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority".format(login[0],login[1]))
+db = client["stocks"]
+
+# Code to run when /stocks/ticker is ran
+class Stock(Resource):
+    def get(self, ticker):
+        # Get all collection of stocks
+        existing_list = db.list_collection_names()
+        try:
+            if ticker not in existing_list:
+                raise Exception("Stock Not Found")
+        except Exception:
+            # create new collection
+            print("Creating New Collection")
+            new_collection = db[ticker]
+            collecter = StockGetter(ticker)
+            # fetch and insert data
+            data = collecter.GetData()
+            new_collection.insert_many(data)
+        finally:
+            # get all documents
+            data = db[ticker]
+            json_return = list(data.find())
+            return dumps(json_return)
+
+# Code to run when /twitter/ticker is ran
+class Twitter(Resource):
+    pass
+
+# Code to run when /reddit/ticker is ran
+class Reddit(Resource):
+    pass
+
+api.add_resource(Stock, "/stocks/<string:ticker>")
+api.add_resource(Twitter, "/twitter/<string:handle>")
+api.add_resource(Reddit, "/reddit/<string:user>")
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+
+Below is a simple class that uses the yfinance api to obtain historial stock data using the GetData() function.
+
+```python
+import yfinance as yf
+
+#Example Class to access the yfinance module
+class StockGetter():
+    def __init__(self, ticker):
+        self.ticker = ticker
+
+    def GetData(self):
+        print(self.ticker)
+        stock = yf.Ticker(self.ticker)
+        data = stock.history(period="max")
+        data = data[["Open","High","Low","Close","Volume"]]
+        data.reset_index(inplace=True)
+        data = data.to_dict("records")
+        data = list(data)
+        return data 
+```
+
+After everyone was done with their crawler class, everything was then integrated into the api.py file. Firstly lets start with the database connection.
+
+```python
+login = []
+with open("config.txt", "r") as f:
+    for line in f:
+        login.append(line.strip())
+client = pymongo.MongoClient("mongodb+srv://{}:{}@cluster0.vk8mu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority".format(login[0],login[1]))
+```
+
+An empty array is created in order to hold the username and password that is stored inside a config.txt file that is available locally. This keeps the sensitive information off the public repository keeping your database secure. Next the RESTful API is being set up. The Classes created are needed by the flask app to generate the links to make the API call later on. Each of the class will inherit the Resource Class from flask_restful as in order to add a resource the class must be of type Resource. The classes all have the same objective depending on the inputs of the API call, It will check if the data already exists in the database if the data base does not exist it will spawn a crawler object and call the functions needed to get the data and input it into the database then finally the data is sent to the front end. Shown below is the class for each of the data the front end can request.
+
+### 1.3.1 RESTful for stocks
+
+```python
+class Stock(Resource):
+    def get(self, ticker):
+        # connect to stocks database
+        db = client["stocks"]
+        # Get all collection of stocks
+        existing_list = db.list_collection_names()
+        try:
+            if ticker not in existing_list:
+                raise Exception("Stock Not Found")
+        except Exception:
+            # create new collection
+            print("Creating New Collection")
+            new_collection = db[ticker]
+
+            # create crawler object
+            collecter = YFinanceCrawler(ticker)
+
+            # fetch and insert data
+            data = collecter.getHistoricalData()
+
+            # if stock is available
+            if len(data) != 0:
+                new_collection.insert_many(data)
+                print("Data inserted into database")
+
+            # if stock is not available
+            # will search industries
+            if len(data) == 0:
+                print("check industries")
+                #crawl industries stock
+                # software_services/ hardware_electronics/ business_services
+                collecter_Industries = YFinanceCrawler(ticker)
+
+                collecter_Industries.getIndustriesStockData(db)
+        finally:
+            # get all documents
+            data = db[ticker]
+            json_return = list(data.find().sort("Date",-1).limit(100))
+            return dumps(json_return)
+```
+
+ ### 1.3.2 RESTful for Twitter
+
+```python
+class Twitter(Resource):
+    def get(self, handle):
+        # connect to twitter database
+        db = client["twitter"]
+
+        # Create Twitter Crawler Object
+        twitterCrawler = crawlTweets(handle)
+
+        existing_list = db.list_collection_names()
+
+        try:
+            if handle not in existing_list:
+                raise Exception("User Not Found")
+        except Exception:
+            # create new collection
+            print("Creating New Collection")
+            new_collection = db[handle]
+            twitterCrawler = crawlTweets(handle)
+            # fetch and insert data
+            data = twitterCrawler.get_all_tweets()
+            new_collection.insert_many(data)
+        finally:
+            # get all documents
+            data = db[handle]
+            json_return = list(data.find().sort("Date",-1).limit(100))
+            return dumps(json_return)
+```
+
+### 1.3.3 RESTful for list of available stocks
+
+```python
+class StocksList(Resource):
+    def get(self):
+        db = client["stocks"]
+        return db.list_collection_names()
+```
+
+
+
+### 1.3.4 RESTful for reddit
+
+```python
+class Reddit(Resource):
+    def get(self, subreddit):
+        db = client["reddit"]
+        data = db[subreddit]
+        json_return = list(data.find().sort("Date",-1).limit(100))
+        return dumps(json_return)
+```
+
+### 1.3.5 Adding the Resources to API and running the server
+
+The debug = True here is used during testing and is not required if you are not debugging
+
+```python
+api.add_resource(Stock, "/stocks/<string:ticker>")
+api.add_resource(StocksList, "/stockslist")
+api.add_resource(Twitter, "/twitter/<string:handle>")
+api.add_resource(Reddit, "/reddit/<string:subreddit>")
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+
+## 1.4 Unit Testing For API Server
+
+Simple unit test is conducted to verify that when doing a get request to a valid link a http code 200 is obtained and if the link is not valid a 404 is obtained.
+
+```python
+import unittest
+import requests
+
+class ApiTest(unittest.TestCase):
+    def test_valid_link(self):
+        API_URL = "http://localhost:5000/stocks/GME"
+        r = requests.get(API_URL)
+        self.assertEqual(r.status_code, 200)
+    def test_invalid_link(self):
+        API_URL = "http://localhost:5000/meow/GME"
+        r = requests.get(API_URL)
+        self.assertEqual(r.status_code, 404)
+
+if __name__ == "__main__":
+    unittest.main()
+```
+
+
+
 # 2. Front-End Web Application
 
 As the Web Application is a local Application, there are some prerequisites to do/run to allow the Web Application to function correctly along with the API and Database. 
@@ -490,6 +775,7 @@ function generateRow(container, stock) {
 ```
 
 #### 2.2.5.3 Data.html Functions
+
 ---
 
 For Data.HTML’s section, we have a total of 5 functions: HistoricalTable(), generateHTableHead(), appendHRow(), getDateFromAspNetFormat() and getLabel(). 
