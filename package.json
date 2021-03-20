@@ -1,0 +1,28 @@
+{
+  "name": "java-assignment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "assert": "^2.0.0",
+    "body-parser": "^1.19.0",
+    "chart.js": "^2.9.4",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.2.1",
+    "mongodb": "^3.6.4",
+    "mongoose": "^5.11.17",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.7",
+    "requirejs": "^2.3.6",
+    "uniq": "^1.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
