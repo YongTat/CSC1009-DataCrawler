@@ -15,7 +15,7 @@ The flask modules are use to run the API server and Pymongo is for the database 
 
 ## 1.2 Mongo Database
 
-![Database Image](https://imgur.com/a/o3TEpnE.jpg)
+![Database Image](https://i.imgur.com/cHuZmz1.png)
 
 For this project we are using Mongo as our database, inside the main cluster 3 separate databases are created each database will house the collections that houses the documents which is the individual pieces of data.
 
