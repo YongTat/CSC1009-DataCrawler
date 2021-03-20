@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="nav.js"></script>
+  <script src="function.js"></script>
+  <script src="http://localhost:3002/require-browser.js"></script>
+  <script src="node_modules\requirejs\require.js"></script>
+  <title>Stock Sources</title>
+</head>
+<body>
+  <!-- Navbar Section -->
+  <div id="nav-placeholder"></div>
+  <!-- Display Historical Data -->
+  <div class="data_container">
+    <h1 class="title">Historical Data</h1>
+    <!-- Nagivation for Historical Data, Twitter, Reddit -->
+    <div class="menu_container" id="menu_container">
+    </div>
+    <canvas id="myChart" width="400" height="400"></canvas>
+    <script>
+      const values =[];
+      const labels = getLabel();
+      chartIt();
+      //Function to chart the graph
+      async function chartIt() {
+        await getData();
+        await getLabel();
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Open',
+              data: values,
+              fill: false,
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: false
+                }
+              }]
+            }
+          }
+        });
+      }
+      //Async Function to get Data from database
+      async function getData() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const stock = urlParams.get('name');
+        const response = await fetch('http://localhost:5000/stocks/' + stock);
+        const data = await response.text();
+        parsed = JSON.parse(data);
+        parsed = JSON.parse(parsed);
+        for (i = 0; i < parsed.length; i++) {
+          values.push(parsed[i].Open);
+        }
+      }
+    </script>
+    <div>
+      <div id="data_table"></div>
+    </div>
+  </div>
+  </div>
+  </div>
+  </div>
+</body>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="styles.css" />
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</html>
