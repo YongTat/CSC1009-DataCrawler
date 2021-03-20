@@ -1,5 +1,5 @@
 import unittest
-import twittercrawler as tw
+import Jielin_twitterCrawler as tw
 
 valid = ["amazon"]
 result_true = tw.crawlTweets(valid)
